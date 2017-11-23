@@ -34,7 +34,6 @@ public class Simplexe
 		while(matrice.objectifEstPositive())
 		{
 			Point pivot = trouverPivot();
-			Gauss.rendrePivotUnitaire(matrice,pivot);
 			//Ecriture dans les observer
 		}
 		
