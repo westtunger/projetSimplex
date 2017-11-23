@@ -34,7 +34,6 @@ public class Simplexe
 		while(matrice.objectifEstPositive())
 		{
 			Point pivot = trouverPivot();
-			//Ecriture dans les observer
 		}
 		
 		//Le resultat final est disponible
