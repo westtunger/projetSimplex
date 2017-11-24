@@ -2,8 +2,8 @@ package exceptions;
 
 public class CheminInvalide extends Exception{
 
-	public CheminInvalide()
+	public CheminInvalide(String chemin)
 	{
-		super("Chemin de sauvegarde de fichier invalide");
+		super("Le chemin d'accès" + chemin + "est invalide");
 	}
 }

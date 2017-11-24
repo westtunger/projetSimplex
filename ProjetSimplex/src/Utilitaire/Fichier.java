@@ -6,7 +6,6 @@ import exceptions.CheminInvalide;
 public abstract class Fichier {
 
 	private static String chemin;
-	ObjectOutputStream out = null;
 	
 	/*public String lecture() throws IOException
 	{
@@ -29,8 +28,9 @@ public abstract class Fichier {
 	public static void ecriture(String chaine) throws IOException
 	{
 		//Ecriture du fichier via le chemin d'accès encodé par l'utilisateur
-		try (PrintWriter pw = new PrintWriter(new FileOutputStream(chemin));){	
-			pw.write(chaine.toLowerCase());
+		
+		try (PrintWriter pw = new PrintWriter(new FileOutputStream(chemin))){	//On vérifie que le fichier peut être créer
+			pw.write(chaine); 
 		} catch(IOException e)
 		{
 			System.out.println("Erreur durant l'écriture dans un fichier");
@@ -38,11 +38,11 @@ public abstract class Fichier {
 		
 	}
 	
-	public static void setChemin (String c) throws IOException, CheminInvalide
+	public static void setChemin (String c) throws CheminInvalide
 	{
 		// Regex : [A-Z]{1}:\/(.+\/)*(\w+.\w{1,})
-		if(c==null){
-			throw new CheminInvalide();
+		if(c.length()<1){
+			throw new CheminInvalide(c);
 		}
 		chemin=c;
 	}
