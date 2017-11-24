@@ -14,6 +14,7 @@ public class main {
 		
 		
 		Matrice m1 = new Matrice(null);
+		/* Commentaire */
 		Scanner lc = new Scanner(System.in);
 		
 		
