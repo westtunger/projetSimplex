@@ -11,7 +11,9 @@ public class main {
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		String nomFichier;
-		Matrice m1 = new Matrice();
+		
+		
+		Matrice m1 = new Matrice(null);
 		Scanner lc = new Scanner(System.in);
 		
 		
