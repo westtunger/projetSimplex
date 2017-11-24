@@ -41,8 +41,8 @@ public class Simplexe
 	
 	public Point trouverPivot()
 	{
-		int lignePosPivot = matrice.getMinLignePos(matrice.longueur()-1);
-		int colonnePosPivot = matrice.getMaxColonePos(matrice.hauteur()-1);
+		int lignePosPivot = matrice.getMinLignePos(matrice.getLargeur()-1);
+		int colonnePosPivot = matrice.getMaxColonnePos(matrice.getHauteur()-1);
 		
 		return new Point(lignePosPivot, colonnePosPivot);
 	}
