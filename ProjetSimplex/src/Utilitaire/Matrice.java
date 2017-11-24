@@ -36,6 +36,14 @@ public class Matrice {
 		return hauteur;
 	}
 	
+	public int getMaxColonnePos(int ligne) {
+		return 0;
+	}
+	
+	public int getMinColonnePos(int ligne) {
+		return 0;
+	}
+	
 	public int getMaxLignePos(int ligne){
 		List<Double> pos=matrice.get(ligne); 
 		int indiceMax=0;
