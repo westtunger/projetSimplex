@@ -28,6 +28,14 @@ public class Matrice {
 		return matrice.get(ligne);
 	}
 	
+	public int getLargeur() {
+		return largeur;
+	}
+	
+	public int getHauteur() {
+		return hauteur;
+	}
+	
 	public int getMaxLignePos(int ligne){
 		List<Double> pos=matrice.get(ligne); 
 		int indiceMax=0;
