@@ -1,31 +1,130 @@
 package Modele;
 
 import java.util.stream.Collectors;
-import Utilitaire.Matrice2;
+
+import Utilitaire.Matrice;
 
 public abstract class Simplexe 
 {
 	
-	public static String resoudre(Matrice2 matrice)
+	public static String resoudre(Matrice matrice)
 	{
-		int lignePivot, colonnePivot;
+		int lignePivot, colonnePivot, i=1;
 		String resultat = "";
+		
+		resultat += "Etat initial : \n\n";
+		resultat += "Matrice : \n"+matrice.toString()+"\n";
+		resultat += ecrireSb(matrice);
+		resultat += "-----------------------------------------------------------------------------------\n";
 	
 		while(matrice.objectifEstPositive())
 		{
+			resultat += "Etape n°"+i+" : \n\n";
+			
 			colonnePivot = trouverColonnePivot(matrice);
 			lignePivot = trouverLignePivot(matrice,colonnePivot);
-			System.out.println("Ligne du pivot : "+lignePivot);
-			System.out.println("Colonne du pivot : "+colonnePivot);
+			resultat += "Ligne du pivot : "+lignePivot+"\n";
+			resultat += "Colonne du pivot : "+colonnePivot+"\n\n";
 			matrice = rendrePivotUnitaire(matrice, lignePivot, colonnePivot);
+			resultat += "Matrice après avoir rendu le pivot unitaire : \n"+matrice.toString()+"\n";
 			matrice = faireRentrerPivotDansLaBase(matrice, lignePivot, colonnePivot);
-			System.out.println(matrice);
+			resultat += "Matrice après avoir fait rentrer le pivot dans la base : \n"+matrice.toString()+"\n";
+			resultat += ecrireSb(matrice);
+			resultat += "-----------------------------------------------------------------------------------\n";
+			i++;
 		}
+		
+		resultat += sortirResultat(matrice);
 		
 		return resultat;
 	}
 	
-	private static int trouverLignePivot(Matrice2 matrice, int colonnePivot)
+	private static String ecrireSb(Matrice matrice) 
+	{
+		String sb = "Solution de base : \n(";
+		
+		for(int i=0; i < matrice.getLargeur()-1; i++)
+		{
+			int n = -1;
+			
+			for(int j = 0;j<matrice.getHauteur();j++)
+			{
+				double valeur = matrice.getValeur(j, i);
+				
+				if(valeur == 0)
+				{
+					continue;
+				}
+				else if(valeur == 1 && n == -1)
+				{
+					n = j;
+					continue;
+				}
+				else
+				{
+					n = -2;
+					break;
+				}	
+			}
+			
+			if(n >= 0)
+				sb += " "+matrice.getValeur(n, matrice.getLargeur()-1)+" ";
+			else
+				sb += 0;
+			
+			if(i < matrice.getLargeur()-2)
+			{
+				sb += ",";
+			}
+		}
+		
+		sb+= ") ";
+		
+		sb += "Z = "+Math.abs(matrice.getValeur(matrice.getHauteur()-1, matrice.getLargeur()-1))+"\n";
+		
+		return sb;
+	}
+	
+	private static String sortirResultat(Matrice matrice) 
+	{
+		String resultat = "";
+		
+		for(int i=0; i < matrice.getNbVar(); i++)
+		{
+			int n = -1;
+			
+			for(int j = 0;j<matrice.getHauteur();j++)
+			{
+				double valeur = matrice.getValeur(j, i);
+				
+				if(valeur == 0)
+				{
+					continue;
+				}
+				else if(valeur == 1 && n == -1)
+				{
+					n = j;
+					continue;
+				}
+				else
+				{
+					n = -2;
+					break;
+				}	
+			}
+			
+			if(n >= 0)
+				resultat += "x"+i+"* = "+matrice.getValeur(n, matrice.getLargeur()-1)+"\n";
+			else
+				resultat += "x"+i+"* = "+0+"\n";
+		}
+		
+		resultat += "Z* = "+Math.abs(matrice.getValeur(matrice.getHauteur()-1, matrice.getLargeur()-1))+"\n";
+		
+		return resultat;
+	}
+	
+	private static int trouverLignePivot(Matrice matrice, int colonnePivot)
 	{
 		int lignePivot = 0;
 		double valeurLigne;
@@ -44,7 +143,7 @@ public abstract class Simplexe
 		return lignePivot;
 	}
 	
-	private static int trouverColonnePivot(Matrice2 matrice)
+	private static int trouverColonnePivot(Matrice matrice)
 	{
 		int colonnePivot;
 		
@@ -53,7 +152,7 @@ public abstract class Simplexe
 		return colonnePivot;
 	}
 	
-	private static Matrice2 rendrePivotUnitaire(Matrice2 matrice, int lignePivot, int colonnePivot)
+	private static Matrice rendrePivotUnitaire(Matrice matrice, int lignePivot, int colonnePivot)
 	{
 		double div = matrice.getValeur(lignePivot, colonnePivot);
 		
@@ -62,7 +161,7 @@ public abstract class Simplexe
 		return matrice;
 	}
 	
-	private static Matrice2 faireRentrerPivotDansLaBase(Matrice2 matrice, int lignePivot, int colonnePivot) 
+	private static Matrice faireRentrerPivotDansLaBase(Matrice matrice, int lignePivot, int colonnePivot) 
 	{
 		for(int i = 0; i < matrice.getHauteur();i++)
 		{
