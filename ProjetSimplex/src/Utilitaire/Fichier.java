@@ -41,7 +41,7 @@ public abstract class Fichier {
 	public static void setChemin (String c) throws CheminInvalide
 	{
 		// Regex : [A-Z]{1}:\/(.+\/)*(\w+.\w{1,})
-		if(c.length()<1){
+		if(c.length()<=0){
 			throw new CheminInvalide(c);
 		}
 		chemin=c;
