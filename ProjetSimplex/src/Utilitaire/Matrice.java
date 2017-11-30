@@ -13,7 +13,7 @@ public class Matrice {
 
 
 	public Matrice(int nbContrainte, int nbVariable, Double... fonctionObjectif) {
-		
+		this.nbContraintes = nbContrainte;
 		this.matrice = new ArrayList<List<Double>>();		
 		List<Double> ligneObjectif = new ArrayList<>();		
 		Arrays.asList(fonctionObjectif).forEach(valeur -> ligneObjectif.add(valeur));
@@ -79,6 +79,7 @@ public class Matrice {
 	}
 	public void ajouterContrainte(double termeIndependant, Double... variables)
 	{
+		
 		List<Double> ligneContrainte = new ArrayList<>();		
 		Arrays.asList(variables).forEach(valeur -> ligneContrainte.add(valeur));
 		
