@@ -5,7 +5,13 @@ import java.util.Arrays;
 
 public class Matrice {
 	private List<List<Double>> matrice;
+	private int nbContraintes; 
 	
+	public void setNbContraintes(int nbContraintes) {
+		this.nbContraintes = nbContraintes;
+	}
+
+
 	public Matrice(int nbContrainte, int nbVariable, Double... fonctionObjectif) {
 		
 		this.matrice = new ArrayList<List<Double>>();		
@@ -76,14 +82,15 @@ public class Matrice {
 		List<Double> ligneContrainte = new ArrayList<>();		
 		Arrays.asList(variables).forEach(valeur -> ligneContrainte.add(valeur));
 		
-		for(int i = 0;i<this.getNbContrainte();i++)
+		for(int i = 0;i<this.nbContraintes;i++)
 		{
 			if(i == this.getNbLignes()-1)
 			{
 				ligneContrainte.add(1.);
 			}
-			else
+			else {
 				ligneContrainte.add(0.);
+			}
 		}
 		ligneContrainte.add(termeIndependant);
 		
