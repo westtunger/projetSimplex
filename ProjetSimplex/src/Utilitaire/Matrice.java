@@ -96,7 +96,31 @@ public class Matrice {
 			return ligne;
 		}
 		
-	
+	public void ajouterContrainte(double termeIndependant, Double... variables)
+	{
+		List<Double> ligneContrainte = new ArrayList<>();		
+		Arrays.asList(variables).forEach(valeur -> ligneContrainte.add(valeur));
+		
+		for(int i = 0;i<nbContrainte;i++)
+		{
+			if(i == hauteur-1)
+			{
+				ligneContrainte.add(1.);
+			}
+			else
+				ligneContrainte.add(0.);
+		}
+		ligneContrainte.add(termeIndependant);
+		
+		matrice.add(ligneContrainte);
+		
+		List<Double> tmp = matrice.get(matrice.size()-1);
+		
+		matrice.set(matrice.size()-1,matrice.get(matrice.size()-2));
+		
+		matrice.set(matrice.size()-2, tmp);
+		hauteur++;
+	}
 	
 	public int getMinColonnePos(int colonne) {
 		double min = this.getMaxColonnePos(colonne);
