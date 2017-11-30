@@ -1,12 +1,12 @@
 package Modele;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import Utilitaire.Matrice;
 
 public abstract class Simplexe 
 {
-	
 	public static String resoudre(Matrice matrice)
 	{
 		int lignePivot, colonnePivot, i=1;
@@ -68,9 +68,13 @@ public abstract class Simplexe
 			}
 			
 			if(n >= 0)
+			{
 				sb += " "+matrice.getValeur(n, matrice.getLargeur()-1)+" ";
+			}
 			else
+			{
 				sb += 0;
+			}
 			
 			if(i < matrice.getLargeur()-2)
 			{
@@ -114,9 +118,13 @@ public abstract class Simplexe
 			}
 			
 			if(n >= 0)
-				resultat += "x"+i+"* = "+matrice.getValeur(n, matrice.getLargeur()-1)+"\n";
+			{
+				resultat += "x"+(i+1)+"* = "+matrice.getValeur(n, matrice.getLargeur()-1)+"\n";
+			}
 			else
-				resultat += "x"+i+"* = "+0+"\n";
+			{
+				resultat += "x"+(i+1)+"* = "+0+"\n";
+			}
 		}
 		
 		resultat += "Z* = "+Math.abs(matrice.getValeur(matrice.getHauteur()-1, matrice.getLargeur()-1))+"\n";
@@ -156,7 +164,10 @@ public abstract class Simplexe
 	{
 		double div = matrice.getValeur(lignePivot, colonnePivot);
 		
-		matrice.setLigne(lignePivot,matrice.getLigne(lignePivot).stream().map(valeur -> valeur/div).collect(Collectors.toList()));
+		//Utilisation du stream pour faciliter le travail.
+		List<Double> ligne = matrice.getLigne(lignePivot).stream().map(valeur -> valeur/div).collect(Collectors.toList());
+		
+		matrice.setLigne(lignePivot,ligne);
 		
 		return matrice;
 	}
@@ -175,6 +186,7 @@ public abstract class Simplexe
 				}
 			}
 		}
+		
 		
 		return matrice;
 	}
