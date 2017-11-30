@@ -138,7 +138,7 @@ public class Matrice {
 		List<Double> pos=matrice.get(ligne); 
 		int indiceMax=0;
 		double max = 0;
-		for(int i=0;i<=pos.size();i++) {
+		for(int i=0;i<pos.size();i++) {
 			if ((double)pos.get(i) > max) {
 				max = (double) pos.get(i);
 				indiceMax = i;
@@ -150,7 +150,7 @@ public class Matrice {
 		List<Double> pos=matrice.get(ligne); 
 		int indiceMin=0;
 		double min = getMaxLignePos(ligne);//Indou représente
-		for(int i=0;i<=pos.size();i++) {
+		for(int i=0;i<pos.size();i++) {
 			if ((double)pos.get(i) > min) {
 				min = (double) pos.get(i);
 				indiceMin = i;
@@ -162,7 +162,7 @@ public class Matrice {
 		List<Double> ligne = matrice.get(hauteur-1);
 		int i=0;
 		boolean verif=false;
-		while(i<=ligne.size()-1 && verif == false) {
+		while(i<ligne.size() && verif == false) {
 			if(ligne.get(i)>0) {
 				verif = true;
 			}else {
