@@ -93,7 +93,7 @@ public abstract class Simplexe
 	{
 		String resultat = "";
 		
-		for(int i=0; i < matrice.getNbVar(); i++)
+		for(int i=0; i < matrice.getNbVariable(); i++)
 		{
 			int n = -1;
 			

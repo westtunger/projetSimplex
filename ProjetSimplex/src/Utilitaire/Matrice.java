@@ -1,33 +1,81 @@
 package Utilitaire;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Matrice {
-	List<List> matrice;
-	int largeur;
-	int hauteur=0;
-	public Matrice(List<Double> fonctionObjectif) { /* pas encore modifiés */
-		this.matrice = new ArrayList<List>();
-		matrice.add(fonctionObjectif);
-		this.largeur=fonctionObjectif.size();
+	private List<List<Double>> matrice;
+	private int largeur;
+	private int hauteur=0;
+	private int nbContrainte;
+	private int nbVariable;
+	
+	public Matrice(int nbContrainte, int nbVariable, Double... fonctionObjectif) { /*CONSTRUCTEUR DEGEU À MODIFIER*/
+		this.nbVariable = nbVariable;
+		
+		this.nbContrainte = nbContrainte;
+		
+		this.matrice = new ArrayList<List<Double>>();		
+		List<Double> ligneObjectif = new ArrayList<>();		
+		//Arrays.asList(fonctionObjectif).forEach(valeur -> ligneObjectif.add(valeur));
+		
+		for(Double valeur : fonctionObjectif ) {
+			ligneObjectif.add(valeur);
+		};
+		
+		for(int i = 0;i<nbContrainte;i++)
+		{
+			ligneObjectif.add(0.);
+		}
+		
+		//Z
+		ligneObjectif.add(0.);
+		
+		matrice.add(ligneObjectif);
+		this.largeur=ligneObjectif.size();
 		this.hauteur++;
 		
 	}
 	
 	
 	@Override
-	public String toString() { /* pas encore modifiés */
-		return "Matrice [matrice=" + matrice + "]";
+	public String toString() { /* test à faire afin de verifier le toString de la liste */
+		String affichage = null;
+		for (List<Double> ligne : matrice) {
+			affichage += ligne.toString() + "\n";
+		}
+		
+		return affichage;
 	}
 
 	public double getValeur(int ligne,int colonne){
 		return (double) matrice.get(ligne).get(colonne);
 	}
 	
-	public List getLigne(int ligne) {
+	public List<Double> getLigne(int ligne) {
 		return matrice.get(ligne);
 	}
 	
+	public void setLigne(int lignePos, List<Double> ligne ) {
+		matrice.set(lignePos, ligne);
+		
+	}
+	
+	public void setValeur(int ligne,int colonne, double valeur) {
+		matrice.get(ligne).set(colonne, valeur);
+		
+	}
+	
+	public int getNbContrainte() {
+		return nbContrainte;
+	}
+
+
+	public int getNbVariable() {
+		return nbVariable;
+	}
+
+
 	public int getLargeur() {
 		return largeur;
 	}
@@ -36,12 +84,30 @@ public class Matrice {
 		return hauteur;
 	}
 	
-	public int getMaxColonnePos(int ligne) {
-		return 0;
-	}
+	public int getMaxColonnePos(int colonne) {
+		double max = 0;
+		int ligne=-1;
+		for(int i=0;i<=this.getHauteur();i++) {//verifier si le get hauteur depasse
+			if(matrice.get(colonne).get(i) > max) {
+				max = matrice.get(colonne).get(i);
+				ligne =i;
+			}
+		}
+			return ligne;
+		}
+		
 	
-	public int getMinColonnePos(int ligne) {
-		return 0;
+	
+	public int getMinColonnePos(int colonne) {
+		double min = this.getMaxColonnePos(colonne);
+		int ligne=-1;
+		for(int i=0;i<=this.getHauteur();i++) {
+			if(matrice.get(colonne).get(i) < min) {
+				min = matrice.get(colonne).get(i);
+				ligne =i;
+			}
+		}
+			return ligne;
 	}
 	
 	public int getMaxLignePos(int ligne){
@@ -72,8 +138,8 @@ public class Matrice {
 		List<Double> ligne = matrice.get(hauteur-1);
 		int i=0;
 		boolean verif=false;
-		while(i<=ligne.size() && verif == false) {
-			if(ligne.get(i)<=0) {
+		while(i<=ligne.size()-1 && verif == false) {
+			if(ligne.get(i)>0) {
 				verif = true;
 			}else {
 				verif = false;
