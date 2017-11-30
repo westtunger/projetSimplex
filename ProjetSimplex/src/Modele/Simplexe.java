@@ -17,7 +17,7 @@ public abstract class Simplexe
 		resultat += ecrireSb(matrice);
 		resultat += "-----------------------------------------------------------------------------------\n";
 	
-		while(matrice.objectifEstPositive())
+		while(objectifEstPositive(matrice))
 		{
 			resultat += "Etape n°"+i+" : \n\n";
 			
@@ -43,11 +43,11 @@ public abstract class Simplexe
 	{
 		String sb = "Solution de base : \n(";
 		
-		for(int i=0; i < matrice.getLargeur()-1; i++)
+		for(int i=0; i < matrice.getTailleLigne()-1; i++)
 		{
 			int n = -1;
 			
-			for(int j = 0;j<matrice.getHauteur();j++)
+			for(int j = 0;j<matrice.getNbLignes();j++)
 			{
 				double valeur = matrice.getValeur(j, i);
 				
@@ -69,14 +69,14 @@ public abstract class Simplexe
 			
 			if(n >= 0)
 			{
-				sb += " "+matrice.getValeur(n, matrice.getLargeur()-1)+" ";
+				sb += " "+matrice.getValeur(n, matrice.getTailleLigne()-1)+" ";
 			}
 			else
 			{
 				sb += 0;
 			}
 			
-			if(i < matrice.getLargeur()-2)
+			if(i < matrice.getTailleLigne()-2)
 			{
 				sb += ",";
 			}
@@ -84,7 +84,7 @@ public abstract class Simplexe
 		
 		sb+= ") ";
 		
-		sb += "Z = "+Math.abs(matrice.getValeur(matrice.getHauteur()-1, matrice.getLargeur()-1))+"\n";
+		sb += "Z = "+Math.abs(matrice.getValeur(matrice.getNbLignes()-1, matrice.getTailleLigne()-1))+"\n";
 		
 		return sb;
 	}
@@ -97,7 +97,7 @@ public abstract class Simplexe
 		{
 			int n = -1;
 			
-			for(int j = 0;j<matrice.getHauteur();j++)
+			for(int j = 0;j<matrice.getNbLignes();j++)
 			{
 				double valeur = matrice.getValeur(j, i);
 				
@@ -119,7 +119,7 @@ public abstract class Simplexe
 			
 			if(n >= 0)
 			{
-				resultat += "x"+(i+1)+"* = "+matrice.getValeur(n, matrice.getLargeur()-1)+"\n";
+				resultat += "x"+(i+1)+"* = "+matrice.getValeur(n, matrice.getTailleLigne()-1)+"\n";
 			}
 			else
 			{
@@ -127,7 +127,7 @@ public abstract class Simplexe
 			}
 		}
 		
-		resultat += "Z* = "+Math.abs(matrice.getValeur(matrice.getHauteur()-1, matrice.getLargeur()-1))+"\n";
+		resultat += "Z* = "+Math.abs(matrice.getValeur(matrice.getNbLignes()-1, matrice.getTailleLigne()-1))+"\n";
 		
 		return resultat;
 	}
@@ -136,11 +136,11 @@ public abstract class Simplexe
 	{
 		int lignePivot = 0;
 		double valeurLigne;
-		double min = matrice.getValeur(0, matrice.getLargeur()-1)/matrice.getValeur(0, colonnePivot);
+		double min = matrice.getValeur(0, matrice.getTailleLigne()-1)/matrice.getValeur(0, colonnePivot);
 		
-		for(int i = 1; i < matrice.getHauteur()-1;i++)
+		for(int i = 1; i < matrice.getNbLignes()-1;i++)
 		{
-			valeurLigne = matrice.getValeur(i, matrice.getLargeur()-1)/matrice.getValeur(i, colonnePivot);
+			valeurLigne = matrice.getValeur(i, matrice.getTailleLigne()-1)/matrice.getValeur(i, colonnePivot);
 			if(valeurLigne < min || min < 0)
 			{
 				min = valeurLigne;
@@ -155,7 +155,7 @@ public abstract class Simplexe
 	{
 		int colonnePivot;
 		
-		colonnePivot = matrice.getMaxLignePos(matrice.getHauteur()-1);
+		colonnePivot = matrice.getMaxLignePos(matrice.getNbLignes()-1);
 		
 		return colonnePivot;
 	}
@@ -174,13 +174,13 @@ public abstract class Simplexe
 	
 	private static Matrice faireRentrerPivotDansLaBase(Matrice matrice, int lignePivot, int colonnePivot) 
 	{
-		for(int i = 0; i < matrice.getHauteur();i++)
+		for(int i = 0; i < matrice.getNbLignes();i++)
 		{
 			if(i != lignePivot)
 			{
 				double mult = matrice.getValeur(i, colonnePivot) / matrice.getValeur(lignePivot, colonnePivot);
 				
-				for(int j = 0; j < matrice.getLargeur();j++)
+				for(int j = 0; j < matrice.getTailleLigne();j++)
 				{
 					matrice.setValeur(i, j, matrice.getValeur(i, j)-mult*matrice.getValeur(lignePivot, j));
 				}
@@ -189,5 +189,19 @@ public abstract class Simplexe
 		
 		
 		return matrice;
+	}
+	
+	private static boolean objectifEstPositive(Matrice matrice) 
+	{
+		List<Double> ligne = matrice.getLigne(matrice.getNbLignes()-1);
+		int i=0;
+		boolean verif=false;
+		while(i<ligne.size() && verif == false) 
+		{
+			verif = ligne.get(i)>0 ? true : false;
+
+			i++;
+		}
+		return verif;
 	}
 }
