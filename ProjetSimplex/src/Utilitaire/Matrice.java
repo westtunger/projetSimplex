@@ -6,7 +6,7 @@ import java.util.Arrays;
 public class Matrice {
 	private List<List<Double>> matrice;
 	
-	public Matrice(int nbContrainte, int nbVariable, Double... fonctionObjectif) { /*CONSTRUCTEUR DEGEU À MODIFIER*/
+	public Matrice(int nbContrainte, int nbVariable, Double... fonctionObjectif) {
 		
 		this.matrice = new ArrayList<List<Double>>();		
 		List<Double> ligneObjectif = new ArrayList<>();		
@@ -97,17 +97,17 @@ public class Matrice {
 	}
 	
 
-	public int getMinLignePos(int ligne){
-		List<Double> pos=matrice.get(ligne); 
-		int indiceMin=0;
-		double min = pos.get(0); //getMaxLignePos(ligne);
-		for(int i=1;i<pos.size();i++) {
-			if ((double)pos.get(i) > min) {
-				min = (double) pos.get(i);
-				indiceMin = i;
+	public int getMaxLignePos(int numLigne){
+		List<Double> ligne=matrice.get(numLigne); 
+		int indiceMax=0;
+		double max = 0;
+		for(int i=1;i<ligne.size();i++) {
+			if (ligne.get(i) > max) {
+				max =  ligne.get(i);
+				indiceMax = i;
 			}
 		}
-		return indiceMin;
+		return indiceMax;
 	}
 	
 	
