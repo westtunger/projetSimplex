@@ -109,7 +109,7 @@ public class Matrice {
 		List<Double> ligne=matrice.get(numLigne); 
 		int indiceMax=0;
 		double max = 0;
-		for(int i=1;i<ligne.size();i++) {
+		for(int i=0;i<ligne.size();i++) {
 			if (ligne.get(i) > max) {
 				max =  ligne.get(i);
 				indiceMax = i;

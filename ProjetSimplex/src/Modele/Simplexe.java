@@ -11,6 +11,7 @@ public abstract class Simplexe
 	{
 		int lignePivot, colonnePivot, i=1;
 		String resultat = "";
+		boolean solutionRestrainte = false;
 		
 		resultat += "Etat initial : \n\n";
 		resultat += "Matrice : \n"+matrice.toString()+"\n";
@@ -20,8 +21,8 @@ public abstract class Simplexe
 		while(objectifEstPositive(matrice))
 		{
 			resultat += "Etape n°"+i+" : \n\n";
-			
 			colonnePivot = trouverColonnePivot(matrice);
+			solutionRestrainte = isSolutionRestrainte(matrice,colonnePivot);
 			lignePivot = trouverLignePivot(matrice,colonnePivot);
 			resultat += "Ligne du pivot : "+lignePivot+"\n";
 			resultat += "Colonne du pivot : "+colonnePivot+"\n\n";
@@ -32,11 +33,39 @@ public abstract class Simplexe
 			resultat += ecrireSb(matrice);
 			resultat += "-----------------------------------------------------------------------------------\n";
 			i++;
+			if(solutionRestrainte)
+				break;
 		}
 		
-		resultat += sortirResultat(matrice);
+		resultat += sortirResultat(matrice,solutionRestrainte);
 		
 		return resultat;
+	}
+	
+	private static boolean isSolutionRestrainte(Matrice matrice, int colonne)
+	{
+		boolean solutionRestrainte = false;
+		int n = 0;
+		
+		for(int j = 0;j<matrice.getNbLignes();j++)
+		{
+			double valeur = matrice.getValeur(j, colonne);
+			
+			if(valeur <= 0)
+			{
+				n++;
+				continue;
+			}
+		}
+		
+		//Toute la colonne de la variable entrant en base est négative ou nulle
+		//Il s'agit donc d'un cas de solution illimitée (restrainte)
+		if(n == matrice.getNbLignes())
+		{
+			solutionRestrainte = true;
+		}
+		
+		return solutionRestrainte;
 	}
 	
 	private static String ecrireSb(Matrice matrice) 
@@ -89,9 +118,67 @@ public abstract class Simplexe
 		return sb;
 	}
 	
-	private static String sortirResultat(Matrice matrice) 
+	private static String sortirResultat(Matrice matrice, boolean solutionRestrainte) 
 	{
 		String resultat = "";
+		boolean infinite = false;
+		
+		//Determination d'un cas d'infinité de solution
+		for(int i=matrice.getNbVariable(); i < matrice.getTailleLigne()-1; i++)
+		{
+			int n = -1;
+			
+			for(int j = 0;j<matrice.getNbLignes();j++)
+			{
+				double valeur = matrice.getValeur(j, i);
+				
+				if(valeur == 0)
+				{
+					continue;
+				}
+				else if(valeur == 1 && n == -1)
+				{
+					n = j;
+					continue;
+				}
+				else
+				{
+					n = -2;
+					break;
+				}	
+			}
+			
+			if(n < 0)
+			{
+				//Si l'une des variables de décision non base a une valeur de 0 dans la ligne Z
+				if(matrice.getValeur(matrice.getNbLignes()-1, i) == 0)
+				{
+					infinite = true;
+					break;
+				}
+			}
+		}
+		
+		if(infinite)
+		{
+			resultat+="Il y a une infinité de couples ";
+			
+			for(int i = 1; i <= matrice.getNbVariable(); i++)
+			{
+				resultat+="X"+i;
+				
+				if(i == matrice.getNbVariable())
+					resultat += " ";
+				else
+					resultat += ", ";
+			}
+			
+			resultat+="pour la valeur optimale Z="+Math.abs(matrice.getValeur(matrice.getNbLignes()-1, matrice.getTailleLigne()-1))+" répondants aux contraintes du problème. L'un d'eux est :\n";
+		}
+		
+		//Solution restreinte
+		if(solutionRestrainte)
+			resultat+="Le problème est restraint, càd qu'il n'y a aucune valeurs optimale spécifique pour la fonction objectif.\n Tant que les variabiables augmentes, Z augmente aussi.";
 		
 		for(int i=0; i < matrice.getNbVariable(); i++)
 		{
