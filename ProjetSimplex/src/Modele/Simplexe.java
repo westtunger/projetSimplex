@@ -31,7 +31,6 @@ public abstract class Simplexe
 			matrice = faireRentrerPivotDansLaBase(matrice, lignePivot, colonnePivot);
 			resultat += "Matrice après avoir fait rentrer le pivot dans la base : \n"+matrice.toString()+"\n";
 			resultat += ecrireSb(matrice);
-			System.out.println(ecrireSb(matrice));
 			resultat += "-----------------------------------------------------------------------------------\n";
 			i++;
 			if(solutionRestrainte)
