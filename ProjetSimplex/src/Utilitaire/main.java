@@ -132,8 +132,6 @@ public class Main {
 		double ti;
 		for(i = 0; i< nbcontraintes ; i++)
 		{
-
-			
 			valeurs = r.readLine();
 
 			tableauNombres = valeurs.split(" "); // Sépare la chaine de caractère à chaque espace qui s'y trouve
@@ -159,7 +157,6 @@ public class Main {
 		}
 		r.close();
 		miseEnFormeMatrice();
-
 	}
 	
 	private static void miseEnFormeMatrice()
@@ -203,7 +200,6 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} //Ecriture de la matrice dans le fichier
-
 	}
 
 	private static void afficherDonnees()
