@@ -11,7 +11,7 @@ public class Matrice {
 		this.nbContraintes = nbContraintes;
 	}
 
-
+	
 	public Matrice(int nbContrainte, int nbVariable, Double... fonctionObjectif) {
 		this.nbContraintes = nbContrainte;
 		this.matrice = new ArrayList<List<Double>>();		
@@ -35,12 +35,15 @@ public class Matrice {
 	public String toString() { /* test à faire afin de verifier le toString de la liste */
 		String affichage = "";
 		for (List<Double> ligne : matrice) {
-			affichage += ligne.toString() + "\n";
+			for(Double val : ligne) {
+				affichage += String.format("%6.2f ", val);
+			}
+			affichage +="\n";
 		}
 		
 		return affichage;
 	}
-
+	
 	public double getValeur(int ligne,int colonne){
 		return (double) matrice.get(ligne).get(colonne);
 	}
@@ -57,7 +60,7 @@ public class Matrice {
 	public void setValeur(int ligne,int colonne, double valeur) {
 		matrice.get(ligne).set(colonne, valeur);
 		
-	}
+	} 
 	
 	public int getNbContrainte() {
 		return this.getNbLignes()-1;

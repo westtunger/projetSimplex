@@ -13,7 +13,7 @@ public class main {
 		String nomFichier;
 		
 		
-		Matrice m1 = new Matrice(null);
+		Matrice m1 = new Matrice(0, 0, null);
 		/* Commentaire */
 		Scanner lc = new Scanner(System.in);
 		
