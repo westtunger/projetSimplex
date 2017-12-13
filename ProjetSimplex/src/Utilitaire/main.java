@@ -5,6 +5,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import exceptions.CheminInvalide;
+import exceptions.doublonContrainteException;
 
 public class main {
 
@@ -13,7 +14,16 @@ public class main {
 		String nomFichier;
 		
 		
-		Matrice m1 = new Matrice(0, 0, null);
+		Matrice m1 = new Matrice(3,2,4.,4.);
+		try {
+			m1.ajouterContrainte(4, 1.,1.);
+			m1.ajouterContrainte(4, 1.,1.);
+			m1.ajouterContrainte(12, 3.,3.);
+			
+		} catch (doublonContrainteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		/* Commentaire */
 		Scanner lc = new Scanner(System.in);
 		

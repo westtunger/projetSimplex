@@ -1,5 +1,8 @@
 package Utilitaire;
 import java.util.List;
+
+import exceptions.doublonContrainteException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -10,7 +13,12 @@ public class Matrice {
 	public void setNbContraintes(int nbContraintes) {
 		this.nbContraintes = nbContraintes;
 	}
-
+/**
+ * Constructeur d'une Matrice
+ * @param nbContrainte
+ * @param nbVariable
+ * @param fonctionObjectif
+ */
 	
 	public Matrice(int nbContrainte, int nbVariable, Double... fonctionObjectif) {
 		this.nbContraintes = nbContrainte;
@@ -68,7 +76,7 @@ public class Matrice {
 
 
 	public int getNbVariable() {
-		return this.getTailleLigne()-(1+this.getNbContrainte());
+		return this.getTailleLigne()-(1+getNbContrainte());
 		// Nombre de variable = Taille de la ligne - 1 (terme indépendant) - N(nombre de contraintes)
 	}
 
@@ -80,7 +88,7 @@ public class Matrice {
 	public int getNbLignes() {
 		return matrice.size();
 	}
-	public void ajouterContrainte(double termeIndependant, Double... variables)
+	public void ajouterContrainte(double termeIndependant, Double... variables) throws doublonContrainteException
 	{
 		
 		List<Double> ligneContrainte = new ArrayList<>();		
@@ -91,11 +99,41 @@ public class Matrice {
 			if(i == this.getNbLignes()-1)
 			{
 				ligneContrainte.add(1.);
+				
 			}
 			else {
 				ligneContrainte.add(0.);
 			}
 		}
+		
+		for(List<Double> liste : matrice) {
+			double mult=0;
+			boolean egaux = true;
+			double multMem=0;
+			for(int i=0;i<variables.length;i++) {
+				if(i==0) {
+				multMem = liste.get(i)/ligneContrainte.get(i);
+				}else{
+					mult = liste.get(i)/ligneContrainte.get(i);
+					System.out.print(i+" - "+mult + " - " + multMem+"  ");
+					if(mult != multMem) {
+						egaux=false;
+						break;
+					}
+				}
+			}
+			if(egaux) {
+				mult=liste.get(getTailleLigne()-1)/termeIndependant;
+				System.out.print(mult + " - " + multMem+"  ");
+				if(mult == multMem) {
+					throw new doublonContrainteException();
+				}
+			}
+			System.out.println("");
+		}
+		
+		
+			
 		ligneContrainte.add(termeIndependant);
 		
 		matrice.add(ligneContrainte);
