@@ -3,8 +3,6 @@ package Modele;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import Utilitaire.Matrice;
-
 /**
  * Classe visant à frounir tout les outils pour résoudre un problème du simplexe.
  * @author Nicolas Viseur

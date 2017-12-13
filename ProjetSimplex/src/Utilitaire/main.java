@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import Modele.Matrice;
 import exceptions.CheminInvalide;
 import exceptions.doublonContrainteException;
 

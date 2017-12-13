@@ -1,4 +1,4 @@
-package Utilitaire;
+package Modele;
 import java.util.List;
 
 import exceptions.doublonContrainteException;
