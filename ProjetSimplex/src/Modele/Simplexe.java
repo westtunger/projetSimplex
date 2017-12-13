@@ -19,7 +19,6 @@ public abstract class Simplexe
 	{
 		int lignePivot, colonnePivot, i=1;
 		String resultat = "";
-		boolean solutionRestrainte = false;
 		
 		resultat += "Etat initial : \n\n";
 		resultat += "Matrice : \n"+matrice.toString()+"\n";
@@ -30,19 +29,10 @@ public abstract class Simplexe
 		{
 			resultat += "Etape n°"+i+" : \n\n";
 			colonnePivot = trouverColonnePivot(matrice);
-			solutionRestrainte = isSolutionRestreinte(matrice,colonnePivot);
 			lignePivot = trouverLignePivot(matrice,colonnePivot);
-			matrice = rendrePivotUnitaire(matrice, lignePivot, colonnePivot);			
-			if(solutionRestrainte)
-			{
-				resultat += matrice;
-				break;
-			}
-			else
-			{
-				resultat += "Ligne du pivot : "+lignePivot+"\n";
-				resultat += "Colonne du pivot : "+colonnePivot+"\n\n";
-			}
+			matrice = rendrePivotUnitaire(matrice, lignePivot, colonnePivot);
+			resultat += "Ligne du pivot : "+lignePivot+"\n";
+			resultat += "Colonne du pivot : "+colonnePivot+"\n\n";
 			resultat += "Matrice après avoir rendu le pivot unitaire : \n"+matrice.toString()+"\n";
 			matrice = faireRentrerPivotDansLaBase(matrice, lignePivot, colonnePivot);
 			resultat += "Matrice après avoir fait rentrer le pivot dans la base : \n"+matrice.toString()+"\n";
@@ -51,42 +41,9 @@ public abstract class Simplexe
 			i++;
 		}
 		
-		resultat += sortirResultat(matrice,solutionRestrainte);
+		resultat += sortirResultat(matrice);
 		
 		return resultat;
-	}
-	
-	/**
-	 * Regarde si la solution est restreinte ou non.
-	 * @param matrice La matrice du problème à résoudre.
-	 * @param colonne La colonne à vérifier.
-	 * @return Si oui ou non la solution est restreinte.
-	 * @see Matrice
-	 */
-	private static boolean isSolutionRestreinte(Matrice matrice, int colonne)
-	{
-		boolean solutionRestrainte = false;
-		int n = 0;
-		
-		for(int j = 0;j<matrice.getNbLignes()-1;j++)
-		{
-			double valeur = matrice.getValeur(j, colonne);
-			
-			if(valeur <= 0)
-			{
-				n++;
-				continue;
-			}
-		}
-		
-		//Toute la colonne de la variable entrant en base est négative ou nulle
-		//Il s'agit donc d'un cas de solution illimitée (restrainte)
-		if(n == matrice.getNbLignes()-1)
-		{
-			solutionRestrainte = true;
-		}
-		
-		return solutionRestrainte;
 	}
 	
 	/**
@@ -152,7 +109,7 @@ public abstract class Simplexe
 	 * @return Le résultat du problème sous forme de chaine de caractères.
 	 * @see Matrice
 	 */
-	private static String sortirResultat(Matrice matrice, boolean solutionRestrainte) 
+	private static String sortirResultat(Matrice matrice) 
 	{
 		String resultat = "";
 		boolean infinite = false;
@@ -208,13 +165,6 @@ public abstract class Simplexe
 			}
 			
 			resultat+="pour la valeur optimale Z="+Math.abs(matrice.getValeur(matrice.getNbLignes()-1, matrice.getTailleLigne()-1))+" répondants aux contraintes du problème. L'un d'eux est :\n";
-		}
-		
-		//Solution restreinte
-		if(solutionRestrainte)
-		{
-			resultat+="Le problème est restraint, càd qu'il n'y a aucune valeurs optimale spécifique pour la fonction objectif.\n Tant que les variabiables augmentes, Z augmente aussi.";
-			return resultat;
 		}
 		
 		for(int i=0; i < matrice.getNbVariable(); i++)
@@ -311,9 +261,9 @@ public abstract class Simplexe
 		
 		List<Double> ligne = matrice.getLigne(lignePivot);
 		
-		for (Double valeur : ligne) 
+		for(int i = 0;i<ligne.size();i++)
 		{
-			valeur /= div;
+			ligne.set(i,ligne.get(i)/div);
 		}
 		
 		matrice.setLigne(lignePivot,ligne);
