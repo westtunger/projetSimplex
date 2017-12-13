@@ -302,8 +302,12 @@ public abstract class Simplexe
 	{
 		double div = matrice.getValeur(lignePivot, colonnePivot);
 		
-		//Utilisation du stream pour faciliter le travail.
-		List<Double> ligne = matrice.getLigne(lignePivot).stream().map(valeur -> valeur/div).collect(Collectors.toList());
+		List<Double> ligne = matrice.getLigne(lignePivot);
+		
+		for (Double valeur : ligne) 
+		{
+			valeur /= div;
+		}
 		
 		matrice.setLigne(lignePivot,ligne);
 		

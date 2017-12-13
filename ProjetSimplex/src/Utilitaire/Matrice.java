@@ -23,8 +23,12 @@ public class Matrice {
 	public Matrice(int nbContrainte, int nbVariable, Double... fonctionObjectif) {
 		this.nbContraintes = nbContrainte;
 		this.matrice = new ArrayList<List<Double>>();		
-		List<Double> ligneObjectif = new ArrayList<>();		
-		Arrays.asList(fonctionObjectif).forEach(valeur -> ligneObjectif.add(valeur));
+		List<Double> ligneObjectif = new ArrayList<>();
+		
+		for (Double valeur : fonctionObjectif) 
+		{
+			ligneObjectif.add(valeur);
+		}
 		
 		for(int i = 0;i<nbContrainte;i++)
 		{
@@ -91,8 +95,12 @@ public class Matrice {
 	public void ajouterContrainte(double termeIndependant, Double... variables) throws doublonContrainteException
 	{
 		
-		List<Double> ligneContrainte = new ArrayList<>();		
-		Arrays.asList(variables).forEach(valeur -> ligneContrainte.add(valeur));
+		List<Double> ligneContrainte = new ArrayList<>();
+		
+		for (Double valeur : variables) 
+		{
+			ligneContrainte.add(valeur);
+		}
 		
 		for(int i = 0;i<this.nbContraintes;i++)
 		{
