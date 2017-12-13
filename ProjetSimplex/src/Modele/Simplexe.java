@@ -26,23 +26,29 @@ public abstract class Simplexe
 		resultat += ecrireSb(matrice);
 		resultat += "-----------------------------------------------------------------------------------\n";
 		
-		while(objectifEstPositive(matrice))
+		while(objectifEstPositive(matrice) && i <5)
 		{
 			resultat += "Etape n°"+i+" : \n\n";
 			colonnePivot = trouverColonnePivot(matrice);
 			solutionRestrainte = isSolutionRestreinte(matrice,colonnePivot);
 			lignePivot = trouverLignePivot(matrice,colonnePivot);
-			resultat += "Ligne du pivot : "+lignePivot+"\n";
-			resultat += "Colonne du pivot : "+colonnePivot+"\n\n";
-			matrice = rendrePivotUnitaire(matrice, lignePivot, colonnePivot);
+			matrice = rendrePivotUnitaire(matrice, lignePivot, colonnePivot);			
+			if(solutionRestrainte)
+			{
+				resultat += matrice;
+				break;
+			}
+			else
+			{
+				resultat += "Ligne du pivot : "+lignePivot+"\n";
+				resultat += "Colonne du pivot : "+colonnePivot+"\n\n";
+			}
 			resultat += "Matrice après avoir rendu le pivot unitaire : \n"+matrice.toString()+"\n";
 			matrice = faireRentrerPivotDansLaBase(matrice, lignePivot, colonnePivot);
 			resultat += "Matrice après avoir fait rentrer le pivot dans la base : \n"+matrice.toString()+"\n";
 			resultat += ecrireSb(matrice);
 			resultat += "-----------------------------------------------------------------------------------\n";
 			i++;
-			if(solutionRestrainte)
-				break;
 		}
 		
 		resultat += sortirResultat(matrice,solutionRestrainte);
@@ -62,7 +68,7 @@ public abstract class Simplexe
 		boolean solutionRestrainte = false;
 		int n = 0;
 		
-		for(int j = 0;j<matrice.getNbLignes();j++)
+		for(int j = 0;j<matrice.getNbLignes()-1;j++)
 		{
 			double valeur = matrice.getValeur(j, colonne);
 			
@@ -75,7 +81,7 @@ public abstract class Simplexe
 		
 		//Toute la colonne de la variable entrant en base est négative ou nulle
 		//Il s'agit donc d'un cas de solution illimitée (restrainte)
-		if(n == matrice.getNbLignes())
+		if(n == matrice.getNbLignes()-1)
 		{
 			solutionRestrainte = true;
 		}
@@ -206,7 +212,10 @@ public abstract class Simplexe
 		
 		//Solution restreinte
 		if(solutionRestrainte)
+		{
 			resultat+="Le problème est restraint, càd qu'il n'y a aucune valeurs optimale spécifique pour la fonction objectif.\n Tant que les variabiables augmentes, Z augmente aussi.";
+			return resultat;
+		}
 		
 		for(int i=0; i < matrice.getNbVariable(); i++)
 		{

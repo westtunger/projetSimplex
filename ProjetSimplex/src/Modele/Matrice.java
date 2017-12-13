@@ -123,7 +123,6 @@ public class Matrice {
 				multMem = liste.get(i)/ligneContrainte.get(i);
 				}else{
 					mult = liste.get(i)/ligneContrainte.get(i);
-					System.out.print(i+" - "+mult + " - " + multMem+"  ");
 					if(mult != multMem) {
 						egaux=false;
 						break;
@@ -132,12 +131,10 @@ public class Matrice {
 			}
 			if(egaux) {
 				mult=liste.get(getTailleLigne()-1)/termeIndependant;
-				System.out.print(mult + " - " + multMem+"  ");
 				if(mult == multMem) {
 					throw new doublonContrainteException();
 				}
 			}
-			System.out.println("");
 		}
 		
 		
