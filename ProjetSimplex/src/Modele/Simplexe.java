@@ -23,7 +23,7 @@ public abstract class Simplexe
 	{
 		int lignePivot, colonnePivot, i=1;
 		String resultat = "";
-		boolean solutionNonBornee = false;
+		boolean solutionNonBornee = false, solutionsMultiples = false;
 		
 		resultat += "Etat initial : \n\n";
 		resultat += "Matrice : \n"+matrice.toString()+"\n";
@@ -55,8 +55,8 @@ public abstract class Simplexe
 			resultat += "-----------------------------------------------------------------------------------\n";
 			i++;
 		}
-		
-		resultat += sortirResultat(matrice,solutionNonBornee);
+		solutionsMultiples = possedeSolutionsMultiples(matrice);
+		resultat += sortirResultat(matrice,solutionNonBornee, solutionsMultiples);
 		
 		return resultat;
 	}
@@ -150,20 +150,12 @@ public abstract class Simplexe
 		return sb;
 	}
 	
-	/**
-	 * Ecrit le résultat du simplexe sous forme de chaine de caractères et le renvoi.
-	 * @param matrice La matrice du problème à résoudre.
-	 * @param solutionNonBornee Information si la solution est réstreinte ou non.
-	 * @return Le résultat du problème sous forme de chaine de caractères.
-	 * @see Matrice
-	 */
-	private static String sortirResultat(Matrice matrice, boolean solutionNonBornee) 
-	{
-		String resultat = "";
-		boolean infinite = false;
+	private static boolean possedeSolutionsMultiples(Matrice matrice) 
+	{	
+		boolean solutionsMultiples = false;
 		
-		//Determination d'un cas d'infinité de solution
-		for(int i=matrice.getNbVariable(); i < matrice.getTailleLigne()-1; i++)
+		//Determination d'un cas de solution multiples
+		for(int i=0; i < matrice.getTailleLigne()-1; i++)
 		{
 			int n = -1;
 			
@@ -192,13 +184,27 @@ public abstract class Simplexe
 				//Si l'une des variables de décision non base a une valeur de 0 dans la ligne Z
 				if(matrice.getValeur(matrice.getNbLignes()-1, i) == 0)
 				{
-					infinite = true;
+					solutionsMultiples = true;
 					break;
 				}
 			}
 		}
 		
-		if(infinite)
+		return solutionsMultiples;
+	}
+	
+	/**
+	 * Ecrit le résultat du simplexe sous forme de chaine de caractères et le renvoi.
+	 * @param matrice La matrice du problème à résoudre.
+	 * @param solutionNonBornee Information si la solution est réstreinte ou non.
+	 * @return Le résultat du problème sous forme de chaine de caractères.
+	 * @see Matrice
+	 */
+	private static String sortirResultat(Matrice matrice, boolean solutionNonBornee, boolean solutionsMultiples) 
+	{
+		String resultat = "";		
+		
+		if(solutionsMultiples)
 		{
 			resultat+="Il y a une infinité de couples ";
 			
