@@ -3,19 +3,41 @@ package Utilitaire;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Scanner;
 
 import Modele.Matrice;
-import Modele.Simplexe;
 import exceptions.doublonContrainteException;
 
+
+/*
+	Javadoc
+
+ */
 public class LectureDonnees {
 
 
+	public static String getChaineContrainte() {
+		return chaineContrainte;
+	}
+
+	public static void setChaineContrainte(String chaineContrainte) {
+		LectureDonnees.chaineContrainte = chaineContrainte;
+	}
+
+	public static String getChaineFonctionObj() {
+		return chaineFonctionObj;
+	}
+
+	public static void setChaineFonctionObj(String chaineFonctionObj) {
+		LectureDonnees.chaineFonctionObj = chaineFonctionObj;
+	}
+
 	private static int i,j,k, nbcontraintes, nbvariables;
-	private static String [] tableauNombres;
+	private static String [] tableauNombres = null;
 	public static Double[] fonctionObj;
 	private static String  valeurs, chaineContrainte = "", chaineFonctionObj = "Max Z = ", nomFichierLecture;
 	public static Matrice matlec;
@@ -24,37 +46,76 @@ public class LectureDonnees {
 
 	public static Matrice lecConsole() throws NumberFormatException
 	{
+
+		String[] splitValeurs;
 		listeValeurs = new ArrayList<>();
-		System.out.print("Fonction objectif : \n");
-		System.out.print("Valeur des variables de la fonction objective : ");
-		
-		valeurs = lc.nextLine();
-
-		tableauNombres = valeurs.split(" "); // Sépare la chaine de caractère à chaque espace qui s'y trouve
-		nbvariables = tableauNombres.length;
-		fonctionObj = new Double[nbvariables];
-
-		for (i=0;i<nbvariables;i++)
+		boolean err = true;
+		while(err == true)
 		{
-			fonctionObj[i] = Double.parseDouble(tableauNombres[i]); //Ajoute chaque valeur convertie en double à la ligne
-		}
-		i=0;
+			System.out.print("Valeur des variables de la fonction objective : ");
+			valeurs = lc.nextLine();
+			tableauNombres = valeurs.split(" "); 
+			nbvariables = tableauNombres.length;
+			fonctionObj = new Double[nbvariables];
 
+			for (i=0;i<nbvariables;i++)
+			{
+				try {
+					fonctionObj[i] = Double.parseDouble(tableauNombres[i]);
+					if(i==nbvariables-1)
+					{
+						err = false;
+					}
+				}
+				catch (NumberFormatException e) {
+					System.out.println("Veuillez encodez uniquement des nombres, séparés par des espaces");					
+					break;
+				}
+			}
+		}
+		k = 0;
+		Double[] testNbVar = new Double[nbvariables+1];
+		System.out.println("Veuillez encoder les valeurs de vos contraintes (tapez -1 pour terminer)");
 		while(true)
 		{
-			System.out.print("Valeur des variables de la contrainte n°" + (i+1) + " : ");
+			err = true;
+			System.out.print("Valeur des variables de la contrainte n°" + (k+1) + " : ");
 			valeurs = lc.nextLine();
-			System.out.println(valeurs);
+			
+
 			if(valeurs.equals("-1"))
 			{
-
 				nbcontraintes = listeValeurs.size();
 				break;
 			}
 			else
 			{
-				listeValeurs.add(valeurs);
-				System.out.println("aaaaaa");
+				splitValeurs = valeurs.split(" ");
+				
+				for (i=0;i<=nbvariables;i++)
+				{
+					try {
+						testNbVar[i] = Double.parseDouble(splitValeurs[i]);
+						if(i==nbvariables-1)
+						{
+							err = false;
+						}
+					}
+					catch (NumberFormatException e) {
+						err = true;
+						System.out.println("Veuillez encodez uniquement des nombres, séparés par des espaces");					
+						break;
+					}
+				}
+				
+				if(splitValeurs.length != nbvariables+1 && err == true)
+				{
+					System.out.println("Nombre de variables incorrect, veuillez recommencer");
+				}
+				else if (err == false){
+					k++;
+					listeValeurs.add(valeurs);
+				}
 			}
 		}
 
@@ -99,7 +160,7 @@ public class LectureDonnees {
 			}
 		}
 	}
-	
+
 	public static Matrice lecFichier() throws IOException 
 	{
 		listeValeurs = new ArrayList<>();
@@ -108,14 +169,14 @@ public class LectureDonnees {
 
 		BufferedReader r = new BufferedReader(new FileReader(nomFichierLecture));
 		String[] tabval;
-	
+
 		valeurs = r.readLine();
-		
+
 		tabval = valeurs.split(" ");
 		nbvariables = tabval.length;
 		fonctionObj = new Double[nbvariables];
-		
-		
+
+
 		tableauNombres = valeurs.split(" "); // Sépare la chaine de caractère à chaque espace qui s'y trouve
 
 		for (i=0;i<nbvariables;i++)
@@ -136,10 +197,9 @@ public class LectureDonnees {
 			else
 			{
 				listeValeurs.add(valeurs);
-				System.out.println("aaaaaa");
 			}
 		}
-		
+
 		matlec = new Matrice(nbcontraintes, nbvariables, fonctionObj);
 		stockageValeurs();
 		miseEnFormeContraintes();

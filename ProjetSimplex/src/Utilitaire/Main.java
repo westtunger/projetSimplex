@@ -1,21 +1,23 @@
 package Utilitaire;
 
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
-
 
 import Modele.Simplexe;
 
+import Utilitaire.LectureDonnees;
 import Modele.Matrice;
 import exceptions.CheminInvalide;
-import exceptions.doublonContrainteException;
+
+
 
 //import exceptions.CheminInvalide;
 
 
 public class Main {
 	private static Scanner lc = new Scanner(System.in);
-	private static int choixLecture;
+
 	private static String nomFichier, chaineContrainte = "", chaineFonctionObj = "Max Z = ", solution;
 
 	public static Matrice m;
@@ -23,28 +25,39 @@ public class Main {
 		// TODO Auto-generated method stub
 
 		choixLectureDonnees();
-		
-		
-		
-		ecritureFichier();
+		choixSauvegarde();
+
 	}
 
 	private static void choixLectureDonnees()
 	{
-		/* Commentaire */
-		Scanner lc = new Scanner(System.in);
-		
+		int choixLecture = 0;
+
+
 		while(true) // Tant que le nom du fichier est incorrect, on boucle sur la demande de nom
 		{
 			System.out.println("Choix du type de lecture des valeurs");
 			System.out.println("1. Valeurs encodées par l'utilisateur");
 			System.out.println("2. Valeurs encodées dans un fichier textuel");
 			System.out.print("Choix : ");
-			choixLecture= lc.nextInt();
+			
+			try
+			{
+				choixLecture = lc.nextInt();
+			}
+			catch(InputMismatchException e)
+			{
+				lc.nextLine();
+			}
 
 			if(choixLecture == 1)
 			{
-				m=LectureDonnees.lecConsole();
+				try {
+					m=LectureDonnees.lecConsole();
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				break;
 			}
 			else if(choixLecture == 2)
@@ -60,10 +73,37 @@ public class Main {
 			else {
 				System.out.println("Choix incorrect");
 			}
+			
 		}
-		System.out.println(Simplexe.resoudre(m));
+		solution = Simplexe.resoudre(m);
+		System.out.println(solution);
 	}
-	
+
+	private static void choixSauvegarde()
+	{
+		lc.nextLine();
+		String choixSauve;
+		while(true)
+		{
+			System.out.println("Voulez-vous sauvegarder vos résultats dans un fichier ? (oui/non)");
+			System.out.print("Choix : ");
+			choixSauve = lc.nextLine();
+			if(choixSauve.equalsIgnoreCase("oui"))
+			{
+				ecritureFichier();
+				break;
+			}
+			else if(choixSauve.equalsIgnoreCase("non"))
+			{
+				System.out.println("Au revoir");
+				break;
+			}
+			else {
+				System.out.println("Veuillez réitérer votre choix");
+			}
+		}
+	}
+
 	private static void ecritureFichier()
 	{
 
@@ -80,7 +120,7 @@ public class Main {
 			break;
 		}
 		try {
-			Utilitaire.Fichier.ecriture(chaineFonctionObj + "\n" + chaineContrainte + "\n" + solution);
+			Utilitaire.Fichier.ecriture(LectureDonnees.getChaineFonctionObj()+ "\n" + LectureDonnees.getChaineContrainte() + "\n" + solution);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
