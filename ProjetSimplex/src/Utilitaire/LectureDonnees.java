@@ -126,9 +126,9 @@ public class LectureDonnees {
 		while(true)
 		{
 			valeurs = r.readLine();
-			if(valeurs.equals("-1"))
+			System.out.println(valeurs);
+			if(valeurs == null)
 			{
-
 				nbcontraintes = listeValeurs.size();
 				break;
 			}
