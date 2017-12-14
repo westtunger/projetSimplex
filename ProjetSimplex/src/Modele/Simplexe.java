@@ -19,6 +19,7 @@ public abstract class Simplexe
 	{
 		int lignePivot, colonnePivot, i=1;
 		String resultat = "";
+		boolean solutionNonBornee = false;
 		
 		resultat += "Etat initial : \n\n";
 		resultat += "Matrice : \n"+matrice.toString()+"\n";
@@ -29,6 +30,9 @@ public abstract class Simplexe
 		{
 			resultat += "Etape n°"+i+" : \n\n";
 			colonnePivot = trouverColonnePivot(matrice);
+			solutionNonBornee = isSolutionNonBornee(matrice,colonnePivot);
+			if(solutionNonBornee)
+				break;
 			lignePivot = trouverLignePivot(matrice,colonnePivot);
 			matrice = rendrePivotUnitaire(matrice, lignePivot, colonnePivot);
 			resultat += "Ligne du pivot : "+lignePivot+"\n";
@@ -41,9 +45,42 @@ public abstract class Simplexe
 			i++;
 		}
 		
-		resultat += sortirResultat(matrice);
+		resultat += sortirResultat(matrice,solutionNonBornee);
 		
 		return resultat;
+	}
+	
+	/**
+	 * Regarde si la solution est restreinte ou non.
+	 * @param matrice La matrice du problème à résoudre.
+	 * @param colonne La colonne à vérifier.
+	 * @return Si oui ou non la solution est restreinte.
+	 * @see Matrice
+	 */
+	private static boolean isSolutionNonBornee(Matrice matrice, int colonne)
+	{
+		boolean solutionRestrainte = false;
+		int n = 0;
+		
+		for(int j = 0;j<matrice.getNbLignes()-1;j++)
+		{
+			double valeur = matrice.getValeur(j, colonne);
+			
+			if(valeur <= 0)
+			{
+				n++;
+				continue;
+			}
+		}
+		
+		//Toute la colonne de la variable entrant en base est négative ou nulle
+		//Il s'agit donc d'un cas de solution illimitée (restrainte)
+		if(n == matrice.getNbLignes()-1)
+		{
+			solutionRestrainte = true;
+		}
+		
+		return solutionRestrainte;
 	}
 	
 	/**
@@ -109,7 +146,7 @@ public abstract class Simplexe
 	 * @return Le résultat du problème sous forme de chaine de caractères.
 	 * @see Matrice
 	 */
-	private static String sortirResultat(Matrice matrice) 
+	private static String sortirResultat(Matrice matrice, boolean solutionNonBornee) 
 	{
 		String resultat = "";
 		boolean infinite = false;
@@ -167,6 +204,12 @@ public abstract class Simplexe
 			resultat+="pour la valeur optimale Z="+Math.abs(matrice.getValeur(matrice.getNbLignes()-1, matrice.getTailleLigne()-1))+" répondants aux contraintes du problème. L'un d'eux est :\n";
 		}
 		
+		if(solutionNonBornee)
+		{
+			resultat+="La solution n'est pas bornée, càd qu'il n'y a aucune valeurs optimale spécifique pour la fonction objectif (le problème est mal posé).\n Tant que les variabiables augmentes, Z augmente aussi.";
+			return resultat;
+		}
+		
 		for(int i=0; i < matrice.getNbVariable(); i++)
 		{
 			int n = -1;
@@ -222,7 +265,7 @@ public abstract class Simplexe
 		for(int i = 1; i < matrice.getNbLignes()-1;i++)
 		{
 			valeurLigne = matrice.getValeur(i, matrice.getTailleLigne()-1)/matrice.getValeur(i, colonnePivot);
-			if(valeurLigne < min || min < 0)
+			if((valeurLigne < min || min < 0) && valeurLigne > 0)
 			{
 				min = valeurLigne;
 				lignePivot = i;
