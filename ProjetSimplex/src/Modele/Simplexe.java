@@ -206,7 +206,7 @@ public abstract class Simplexe
 		
 		if(solutionsMultiples)
 		{
-			resultat+="Il y a une infinité de couples ";
+			resultat+="Il y a une plusieurs couples ";
 			
 			for(int i = 1; i <= matrice.getNbVariable(); i++)
 			{
@@ -218,7 +218,7 @@ public abstract class Simplexe
 					resultat += ", ";
 			}
 			
-			resultat+="pour la valeur optimale Z="+Math.abs(matrice.getValeur(matrice.getNbLignes()-1, matrice.getTailleLigne()-1))+" répondants aux contraintes du problème. L'un d'eux est :\n";
+			resultat+="possibles pour la valeur optimale Z="+Math.abs(matrice.getValeur(matrice.getNbLignes()-1, matrice.getTailleLigne()-1))+" répondants aux contraintes du problème. L'un d'eux est :\n";
 		}
 		
 		if(solutionNonBornee)
