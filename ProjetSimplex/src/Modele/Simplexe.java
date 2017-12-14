@@ -3,71 +3,55 @@ package Modele;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import Utilitaire.Matrice;
-
+/**
+ * Classe visant à frounir tout les outils pour résoudre un problème du simplexe.
+ * @author Nicolas Viseur
+ */
 public abstract class Simplexe 
 {
+	/**
+	 * Fonction centrale appelée lorsque l'on veut résoudre une matrice avec la méthode du simplexe.
+	 * @param matrice La matrice du problème à résoudre.
+	 * @return Une chaine de caractère contenant tout le développement de la résolution ainsi que la réponse finale.
+	 * @see Matrice
+	 */
 	public static String resoudre(Matrice matrice)
 	{
 		int lignePivot, colonnePivot, i=1;
 		String resultat = "";
-		boolean solutionRestrainte = false;
 		
 		resultat += "Etat initial : \n\n";
 		resultat += "Matrice : \n"+matrice.toString()+"\n";
 		resultat += ecrireSb(matrice);
 		resultat += "-----------------------------------------------------------------------------------\n";
-	
-		while(objectifEstPositive(matrice))
+		
+		while(objectifEstPositive(matrice) && i <5)
 		{
 			resultat += "Etape n°"+i+" : \n\n";
 			colonnePivot = trouverColonnePivot(matrice);
-			solutionRestrainte = isSolutionRestrainte(matrice,colonnePivot);
 			lignePivot = trouverLignePivot(matrice,colonnePivot);
+			matrice = rendrePivotUnitaire(matrice, lignePivot, colonnePivot);
 			resultat += "Ligne du pivot : "+lignePivot+"\n";
 			resultat += "Colonne du pivot : "+colonnePivot+"\n\n";
-			matrice = rendrePivotUnitaire(matrice, lignePivot, colonnePivot);
 			resultat += "Matrice après avoir rendu le pivot unitaire : \n"+matrice.toString()+"\n";
 			matrice = faireRentrerPivotDansLaBase(matrice, lignePivot, colonnePivot);
 			resultat += "Matrice après avoir fait rentrer le pivot dans la base : \n"+matrice.toString()+"\n";
 			resultat += ecrireSb(matrice);
 			resultat += "-----------------------------------------------------------------------------------\n";
 			i++;
-			if(solutionRestrainte)
-				break;
 		}
 		
-		resultat += sortirResultat(matrice,solutionRestrainte);
+		resultat += sortirResultat(matrice);
 		
 		return resultat;
 	}
 	
-	private static boolean isSolutionRestrainte(Matrice matrice, int colonne)
-	{
-		boolean solutionRestrainte = false;
-		int n = 0;
-		
-		for(int j = 0;j<matrice.getNbLignes();j++)
-		{
-			double valeur = matrice.getValeur(j, colonne);
-			
-			if(valeur <= 0)
-			{
-				n++;
-				continue;
-			}
-		}
-		
-		//Toute la colonne de la variable entrant en base est négative ou nulle
-		//Il s'agit donc d'un cas de solution illimitée (restrainte)
-		if(n == matrice.getNbLignes())
-		{
-			solutionRestrainte = true;
-		}
-		
-		return solutionRestrainte;
-	}
-	
+	/**
+	 * Ecrit la solution de base dans un chaine de caractères et la renvoie.
+	 * @param matrice La matrice du problème à résoudre.
+	 * @return La solution de base sous forme de chaine de caractères.
+	 * @see Matrice
+	 */
 	private static String ecrireSb(Matrice matrice) 
 	{
 		String sb = "Solution de base : \n(";
@@ -118,7 +102,14 @@ public abstract class Simplexe
 		return sb;
 	}
 	
-	private static String sortirResultat(Matrice matrice, boolean solutionRestrainte) 
+	/**
+	 * Ecrit le résultat du simplexe sous forme de chaine de caractères et le renvoi.
+	 * @param matrice La matrice du problème à résoudre.
+	 * @param solutionRestrainte Information si la solution est réstreinte ou non.
+	 * @return Le résultat du problème sous forme de chaine de caractères.
+	 * @see Matrice
+	 */
+	private static String sortirResultat(Matrice matrice) 
 	{
 		String resultat = "";
 		boolean infinite = false;
@@ -176,10 +167,6 @@ public abstract class Simplexe
 			resultat+="pour la valeur optimale Z="+Math.abs(matrice.getValeur(matrice.getNbLignes()-1, matrice.getTailleLigne()-1))+" répondants aux contraintes du problème. L'un d'eux est :\n";
 		}
 		
-		//Solution restreinte
-		if(solutionRestrainte)
-			resultat+="Le problème est restraint, càd qu'il n'y a aucune valeurs optimale spécifique pour la fonction objectif.\n Tant que les variabiables augmentes, Z augmente aussi.";
-		
 		for(int i=0; i < matrice.getNbVariable(); i++)
 		{
 			int n = -1;
@@ -219,6 +206,13 @@ public abstract class Simplexe
 		return resultat;
 	}
 	
+	/**
+	 * Trouve et renvoie la ligne du pivot de l'étape actuelle.
+	 * @param matrice La matrice du problème à résoudre.
+	 * @param colonnePivot La colonne du pivot.
+	 * @return La ligne du pivot de l'étape actuelle.
+	 * @see Matrice
+	 */
 	private static int trouverLignePivot(Matrice matrice, int colonnePivot)
 	{
 		int lignePivot = 0;
@@ -238,6 +232,12 @@ public abstract class Simplexe
 		return lignePivot;
 	}
 	
+	/**
+	 * Trouve et renvoie la colonne du pivot de l'étape actuelle.
+	 * @param matrice La matrice du problème à résoudre.
+	 * @return La colonne du piot de l'étape actuelle.
+	 * @see Matrice
+	 */
 	private static int trouverColonnePivot(Matrice matrice)
 	{
 		int colonnePivot;
@@ -247,18 +247,38 @@ public abstract class Simplexe
 		return colonnePivot;
 	}
 	
+	/**
+	 * Rend le pivot unitaire avant de renvoier la matrice modifiée.
+	 * @param matrice La matrice du problème à résoudre.
+	 * @param lignePivot La ligne du pivot de l'étape actuelle.
+	 * @param colonnePivot La colonne du pivot de l'étape actuelle.
+	 * @return	Une nouvelle Matrice avec la ligne du pivot rendue unitaire.
+	 * @see Matrice
+	 */
 	private static Matrice rendrePivotUnitaire(Matrice matrice, int lignePivot, int colonnePivot)
 	{
 		double div = matrice.getValeur(lignePivot, colonnePivot);
 		
-		//Utilisation du stream pour faciliter le travail.
-		List<Double> ligne = matrice.getLigne(lignePivot).stream().map(valeur -> valeur/div).collect(Collectors.toList());
+		List<Double> ligne = matrice.getLigne(lignePivot);
+		
+		for(int i = 0;i<ligne.size();i++)
+		{
+			ligne.set(i,ligne.get(i)/div);
+		}
 		
 		matrice.setLigne(lignePivot,ligne);
 		
 		return matrice;
 	}
 	
+	/**
+	 * Fait rentrer la variable de la colonne du pivot dans la base.
+	 * @param matrice La matrice du problème à résoudre.
+	 * @param lignePivot La ligne du pivot de l'étape actuelle.
+	 * @param colonnePivot La colonne du pivot de l'étape actuelle.
+	 * @return Une nouvelle Matrice
+	 * @see Matrice
+	 */
 	private static Matrice faireRentrerPivotDansLaBase(Matrice matrice, int lignePivot, int colonnePivot) 
 	{
 		for(int i = 0; i < matrice.getNbLignes();i++)
@@ -278,6 +298,12 @@ public abstract class Simplexe
 		return matrice;
 	}
 	
+	/**
+	 * Vérifie si la ligne objectif de la matrice contient toujours au moins une valeur supérieur à 0.
+	 * @param matrice La matrice du problème à résoudre.
+	 * @return Si la ligne objectif de la matrice contient toujours au moins une valeur supérieur à 0.
+	 * @see Matrice
+	 */
 	private static boolean objectifEstPositive(Matrice matrice) 
 	{
 		List<Double> ligne = matrice.getLigne(matrice.getNbLignes()-1);

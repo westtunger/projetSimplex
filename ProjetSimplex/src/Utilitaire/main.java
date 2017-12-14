@@ -3,13 +3,17 @@ package Utilitaire;
 import java.io.IOException;
 import java.util.Scanner;
 
+
 import Modele.Simplexe;
+
+import Modele.Matrice;
 import exceptions.CheminInvalide;
+import exceptions.doublonContrainteException;
 
 //import exceptions.CheminInvalide;
 
 
-public class Main {
+public class main {
 	private static Scanner lc = new Scanner(System.in);
 	private static int choixLecture;
 	private static String nomFichier, chaineContrainte = "", chaineFonctionObj = "Max Z = ", solution;
@@ -17,14 +21,31 @@ public class Main {
 	public static Matrice m;
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
+
 		choixLectureDonnees();
-		afficherDonnees();
+		
+		
+		
 		ecritureFichier();
 	}
 
 	private static void choixLectureDonnees()
 	{
-		while(true)
+		String nomFichier;	
+		Matrice m1 = new Matrice(3,2,4.,4.);
+		try {
+			m1.ajouterContrainte(4, 1.,1.);
+			m1.ajouterContrainte(4, 1.,1.);
+			m1.ajouterContrainte(12, 3.,3.);
+			
+		} catch (doublonContrainteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		/* Commentaire */
+		Scanner lc = new Scanner(System.in);
+		
+		while(true) // Tant que le nom du fichier est incorrect, on boucle sur la demande de nom
 		{
 			System.out.println("Choix du type de lecture des valeurs");
 			System.out.println("1. Valeurs encodées par l'utilisateur");
@@ -51,11 +72,12 @@ public class Main {
 				System.out.println("Choix incorrect");
 			}
 		}
+		System.out.println(Simplexe.resoudre(m));
 	}
 	
 	private static void ecritureFichier()
 	{
-		lc.nextLine();
+
 		System.out.print("Nom du fichier à sauvegarder : ");
 		while(true) // Tant que le nom du fichier est incorrect, on boucle sur la demande de nom
 		{
@@ -76,11 +98,4 @@ public class Main {
 		} //Ecriture de la matrice dans le fichier
 	}
 
-	private static void afficherDonnees()
-	{	
-		System.out.println(chaineFonctionObj);
-		System.out.println(chaineContrainte);
-		solution = Simplexe.resoudre(m);
-		System.out.println(solution);
-	}
 }
