@@ -11,14 +11,16 @@ import Modele.Matrice;
 import exceptions.CheminInvalide;
 
 
-
-//import exceptions.CheminInvalide;
-
-
+/**
+ * Classe qui permet de faire le lien entre chaque partie du programme
+ * Gère les choix faits par l'utilisateur
+ * @author Julian
+ *
+ */
 public class Main {
 	private static Scanner lc = new Scanner(System.in);
 
-	private static String nomFichier, chaineContrainte = "", chaineFonctionObj = "Max Z = ", solution;
+	private static String nomFichier, solution;
 
 	public static Matrice m;
 	public static void main(String[] args) throws IOException {
@@ -29,6 +31,9 @@ public class Main {
 
 	}
 
+	/*
+	 * Demande à l'utilisateur de choisir par quel moyen il désire encoder ses données
+	 */
 	private static void choixLectureDonnees()
 	{
 		int choixLecture = 0;
@@ -79,6 +84,9 @@ public class Main {
 		System.out.println(solution);
 	}
 
+	/*
+	 *  Demande à l'utilisateur s'il désire sauvegarder le fichier
+	 */
 	private static void choixSauvegarde()
 	{
 		lc.nextLine();
@@ -104,6 +112,9 @@ public class Main {
 		}
 	}
 
+	/**
+	 *  Gère l'écriture dans le fichier choisi par l'utilisateur
+	 */
 	private static void ecritureFichier()
 	{
 

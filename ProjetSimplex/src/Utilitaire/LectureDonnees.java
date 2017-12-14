@@ -13,28 +13,30 @@ import Modele.Matrice;
 import exceptions.doublonContrainteException;
 
 
-/*
-	Javadoc
-
+/**
+ * Classe servant à lire les données permettant de résoudre un problème de Simplexe
+ * @author Julian
+ *
  */
 public class LectureDonnees {
 
 
+	/**
+	 * 
+	 * @return une contrainte sous forme de String
+	 */
 	public static String getChaineContrainte() {
 		return chaineContrainte;
 	}
 
-	public static void setChaineContrainte(String chaineContrainte) {
-		LectureDonnees.chaineContrainte = chaineContrainte;
-	}
-
+	/**
+	 * 
+	 * @return La fonction objective sous forme de String
+	 */
 	public static String getChaineFonctionObj() {
 		return chaineFonctionObj;
 	}
 
-	public static void setChaineFonctionObj(String chaineFonctionObj) {
-		LectureDonnees.chaineFonctionObj = chaineFonctionObj;
-	}
 
 	private static int i,j,k, nbcontraintes, nbvariables;
 	private static String [] tableauNombres = null;
@@ -44,6 +46,11 @@ public class LectureDonnees {
 	private static List<String> listeValeurs;
 	private static Scanner lc = new Scanner(System.in);
 
+	/**
+	 * 
+	 * @return Matrice, renvoie la matrice qui permet de calculer le Simplexe
+	 * @throws NumberFormatException Attrape une exception si ce qui est encodé n'est pas un nombre
+	 */
 	public static Matrice lecConsole() throws NumberFormatException
 	{
 
@@ -127,6 +134,9 @@ public class LectureDonnees {
 		return matlec;
 	}
 
+	/**
+	 * Stocke toutes les contraintes encodées par l'utilisateur
+	 */
 	public static void stockageValeurs()
 	{
 		Double[] ligne = new Double[nbvariables];
@@ -161,7 +171,12 @@ public class LectureDonnees {
 		}
 	}
 
-	public static Matrice lecFichier() throws IOException 
+	/**
+	 * Gère la lecture des données via un fichier 
+	 * @return Renvoie la matrice obtenue en lisant le fichier choisi
+	 * @throws IOException Permet de fermer le Reader de fichier
+	 */
+	public static Matrice lecFichier() throws IOException
 	{
 		listeValeurs = new ArrayList<>();
 		System.out.print("Nom du fichier à lire : ");
@@ -208,6 +223,10 @@ public class LectureDonnees {
 		return matlec;
 	}
 
+	/**
+	 * Mets en forme les chaines de caractères des containtes et de la fonction obj
+	 * Pour qu'elles soient lisibles correctement par l'utilisateur
+	 */
 	private static void miseEnFormeContraintes()
 	{
 		for(i=1;i<=nbvariables;i++)
@@ -229,6 +248,9 @@ public class LectureDonnees {
 		}
 	}
 
+	/**
+	 * Affiche la fonction objective et les contraintes
+	 */
 	private static void afficherDonnees()
 	{	
 		System.out.println(chaineFonctionObj);
