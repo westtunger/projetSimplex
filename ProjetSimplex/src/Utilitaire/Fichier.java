@@ -9,6 +9,13 @@ public abstract class Fichier {
 	ObjectInputStream in = null;
 	ObjectOutputStream out = null;
 
+		/**
+		 * 
+		 * @param chaine 
+		 * @throws IOException
+		 * @see PrintWriter
+		 * @see FileOutputSteam
+		 */
 		public static void ecriture(String chaine) throws IOException
 		{
 			//Ecriture du fichier via le chemin d'accès encodé par l'utilisateur
@@ -20,6 +27,11 @@ public abstract class Fichier {
 			}
 		}
 
+		/**
+		 * 
+		 * @param c
+		 * @throws CheminInvalide
+		 */
 		public static void setChemin (String c) throws CheminInvalide
 		{
 			// Regex : [A-Z]{1}:\/(.+\/)*(\w+.\w{1,})

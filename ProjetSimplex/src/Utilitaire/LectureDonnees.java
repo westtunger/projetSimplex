@@ -22,11 +22,12 @@ public class LectureDonnees {
 	private static List<String> listeValeurs;
 	private static Scanner lc = new Scanner(System.in);
 
-	public static Matrice lecConsole()
+	public static Matrice lecConsole() throws NumberFormatException
 	{
 		listeValeurs = new ArrayList<>();
 		System.out.print("Fonction objectif : \n");
 		System.out.print("Valeur des variables de la fonction objective : ");
+		
 		valeurs = lc.nextLine();
 
 		tableauNombres = valeurs.split(" "); // Sépare la chaine de caractère à chaque espace qui s'y trouve
@@ -172,40 +173,5 @@ public class LectureDonnees {
 	{	
 		System.out.println(chaineFonctionObj);
 		System.out.println(chaineContrainte);
-
 	}
 }
-
-
-/*
-Double[] ligne = new Double[nbvariables];
-double ti;
-for(i = 0; i < nbcontraintes; i++)
-{
-	tableauNombres = listeValeurs.get(i).split(" "); // Sépare la chaine de caractère à chaque espace qui s'y trouve
-
-	for (j=0;j<nbvariables;j++)
-	{
-		ligne[j] = (Double.parseDouble(tableauNombres[j])); //Ajoute chaque valeur convertie en double à la ligne
-	}
-
-	ti = Double.parseDouble(tableauNombres[nbvariables]);
-	chaineContrainte += "Contrainte n°"+(i+1)+" : ";
-	for(k=0;k<nbvariables;k++)
-	{
-		chaineContrainte += ligne[k]+"*x"+(k+1);
-
-		if(k!=nbvariables-1)
-		{
-			chaineContrainte += " + ";
-		}		
-	}
-	chaineContrainte += " <= "+ ti +"\n";
-	try {
-		matlec.ajouterContrainte(ti,ligne);
-	} catch (doublonContrainteException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-}
-*/
