@@ -3,6 +3,8 @@ package Modele;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import exceptions.ColonneTermeIndependantNegativeException;
+
 /**
  * Classe visant à frounir tout les outils pour résoudre un problème du simplexe.
  * @author Nicolas Viseur
@@ -33,7 +35,14 @@ public abstract class Simplexe
 			solutionNonBornee = isSolutionNonBornee(matrice,colonnePivot);
 			if(solutionNonBornee)
 				break;
-			lignePivot = trouverLignePivot(matrice,colonnePivot);
+			try 
+			{
+				lignePivot = trouverLignePivot(matrice,colonnePivot);
+			} 
+			catch (ColonneTermeIndependantNegativeException e) 
+			{
+				return e.toString();
+			}
 			matrice = rendrePivotUnitaire(matrice, lignePivot, colonnePivot);
 			resultat += "Ligne du pivot : "+lignePivot+"\n";
 			resultat += "Colonne du pivot : "+colonnePivot+"\n\n";
@@ -254,9 +263,10 @@ public abstract class Simplexe
 	 * @param matrice La matrice du problème à résoudre.
 	 * @param colonnePivot La colonne du pivot.
 	 * @return La ligne du pivot de l'étape actuelle.
+	 * @throws ColonneTermeIndependantNegativeException 
 	 * @see Matrice
 	 */
-	private static int trouverLignePivot(Matrice matrice, int colonnePivot)
+	private static int trouverLignePivot(Matrice matrice, int colonnePivot) throws ColonneTermeIndependantNegativeException
 	{
 		int lignePivot = 0;
 		double valeurLigne;
@@ -270,6 +280,11 @@ public abstract class Simplexe
 				min = valeurLigne;
 				lignePivot = i;
 			}
+		}
+		
+		if(min < 0)
+		{
+			throw new ColonneTermeIndependantNegativeException();
 		}
 		
 		return lignePivot;
