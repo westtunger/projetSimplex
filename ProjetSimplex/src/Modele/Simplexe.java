@@ -6,7 +6,9 @@ import java.util.stream.Collectors;
 import exceptions.ColonneTermeIndependantNegativeException;
 
 /**
- * Classe visant à frounir tout les outils pour résoudre un problème du simplexe.
+ * Classe visant à fournir tout les outils pour résoudre un problème du simplexe.
+ * Requier un objet de la classe Matrice correctement créé.
+ * @see Matrice
  * @author Nicolas Viseur
  */
 public abstract class Simplexe 
@@ -151,7 +153,7 @@ public abstract class Simplexe
 	/**
 	 * Ecrit le résultat du simplexe sous forme de chaine de caractères et le renvoi.
 	 * @param matrice La matrice du problème à résoudre.
-	 * @param solutionRestrainte Information si la solution est réstreinte ou non.
+	 * @param solutionNonBornee Information si la solution est réstreinte ou non.
 	 * @return Le résultat du problème sous forme de chaine de caractères.
 	 * @see Matrice
 	 */
@@ -263,7 +265,7 @@ public abstract class Simplexe
 	 * @param matrice La matrice du problème à résoudre.
 	 * @param colonnePivot La colonne du pivot.
 	 * @return La ligne du pivot de l'étape actuelle.
-	 * @throws ColonneTermeIndependantNegativeException 
+	 * @throws ColonneTermeIndependantNegativeException Si toutes les divisions depuis la colonne des termes indépendant retourne une valeur négative.
 	 * @see Matrice
 	 */
 	private static int trouverLignePivot(Matrice matrice, int colonnePivot) throws ColonneTermeIndependantNegativeException
