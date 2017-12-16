@@ -25,7 +25,7 @@ public class Main {
 	public static Matrice m;
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
-
+		System.out.println("Bienvenue dans ce programme permettant la résolution de problèmes liés au Simplexe");
 		choixLectureDonnees();
 		choixSauvegarde();
 
@@ -52,13 +52,13 @@ public class Main {
 			}
 			catch(InputMismatchException e)
 			{
-				lc.nextLine();
+				lc.nextLine(); //Si une faute de frappe est détectée, on vide le Scanner afin de pouvoir relire
 			}
 
 			if(choixLecture == 1)
 			{
 				try {
-					m=LectureDonnees.lecConsole();
+					m=LectureDonnees.lecConsole(); //On sauvegarde une matrice via la lecture console
 				} catch (NumberFormatException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -68,7 +68,7 @@ public class Main {
 			else if(choixLecture == 2)
 			{
 				try {
-					m=LectureDonnees.lecFichier();
+					m=LectureDonnees.lecFichier(); //On sauvegarde une matrice via la lecture fichier
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -80,7 +80,7 @@ public class Main {
 			}
 			
 		}
-		solution = Simplexe.resoudre(m);
+		solution = Simplexe.resoudre(m); //On trouve la solution en envoyant la matrice
 		System.out.println(solution);
 	}
 
@@ -89,7 +89,7 @@ public class Main {
 	 */
 	private static void choixSauvegarde()
 	{
-		lc.nextLine();
+		lc.nextLine(); //On vide le Scanner pour pouvoir encoder le choix
 		String choixSauve;
 		while(true)
 		{
@@ -131,6 +131,7 @@ public class Main {
 			break;
 		}
 		try {
+			// On essaie de faire l'écriture de la fonction objective + les contraintes + la solution dans le fichier
 			Utilitaire.Fichier.ecriture(LectureDonnees.getChaineFonctionObj()+ "\n" + LectureDonnees.getChaineContrainte() + "\n" + solution);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

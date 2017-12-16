@@ -90,7 +90,7 @@ public class LectureDonnees {
 			valeurs = lc.nextLine();
 			
 
-			if(valeurs.equals("-1"))
+			if(valeurs.equals("-1")) //Fin de la ecture des contraintes si on encode -1
 			{
 				nbcontraintes = listeValeurs.size();
 				break;
@@ -127,7 +127,7 @@ public class LectureDonnees {
 		}
 
 
-		matlec = new Matrice(nbcontraintes, nbvariables, fonctionObj);
+		matlec = new Matrice(nbcontraintes, nbvariables, fonctionObj); 
 		stockageValeurs();
 		miseEnFormeContraintes();
 		afficherDonnees();
@@ -182,7 +182,7 @@ public class LectureDonnees {
 		System.out.print("Nom du fichier à lire : ");
 		nomFichierLecture = lc.nextLine();
 
-		BufferedReader r = new BufferedReader(new FileReader(nomFichierLecture));
+		BufferedReader r = new BufferedReader(new FileReader(nomFichierLecture)); //Crée un Reader pour qui va permettre de lire le fichier ligne par ligne
 		String[] tabval;
 
 		valeurs = r.readLine();

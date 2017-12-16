@@ -13,8 +13,7 @@ import exceptions.CheminInvalide;
 public abstract class Fichier {
 
 	private static String chemin;
-	ObjectInputStream in = null;
-	ObjectOutputStream out = null;
+
 
 		/**
 		 * 
@@ -47,7 +46,7 @@ public abstract class Fichier {
 			}
 			
 			chemin=c;
-			if(!chemin.contains("."))
+			if(!chemin.contains(".")) //Si pas d'extension de fichier trouvée, on en ajoute une
 			{
 				chemin += ".txt";
 			}
