@@ -6,7 +6,7 @@ import java.util.Scanner;
 import Modele.Matrice;
 import exceptions.CheminInvalide;
 
-import Utilitaire.LectureDonnees;
+import Utilitaire.LecteurDonnees;
 
 /**
  * Gère l'écriture des données dans un fichier
@@ -105,7 +105,7 @@ public abstract class Fichier {
 
 			Matrice matlec = new Matrice(nbcontraintes, nbvariables, fonctionObj);
 			
-			matlec = LectureDonnees.stockageValeurs(listeValeurs, matlec, fonctionObj, nbvariables, nbcontraintes);
+			matlec = LecteurDonnees.stockageValeurs(listeValeurs, matlec, fonctionObj, nbvariables, nbcontraintes);
 			System.out.println("\n--- RECAPITULATIF ---");
 			System.out.println(Main.chaineFonctionObj);
 			System.out.println(Main.chaineContrainte);

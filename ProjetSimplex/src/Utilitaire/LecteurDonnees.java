@@ -17,8 +17,10 @@ import exceptions.doublonContrainteException;
  * @author Julian
  *
  */
-public class LectureDonnees {
+public class LecteurDonnees {
 
+
+	private static Scanner lc;
 
 	/**
 	 * 
@@ -35,7 +37,7 @@ public class LectureDonnees {
 
 		Matrice matlec;
 		List<String> listeValeurs =  new ArrayList<>();
-		Scanner lc = new Scanner(System.in);
+		lc = new Scanner(System.in);
 
 		String[] splitValeurs;
 		boolean err = true;

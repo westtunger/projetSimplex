@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 import Modele.Simplexe;
 
-import Utilitaire.LectureDonnees;
+import Utilitaire.LecteurDonnees;
 import Modele.Matrice;
 
 
@@ -59,7 +59,7 @@ public class Main {
 			if(choixLecture == 1)
 			{
 				try {
-					m=LectureDonnees.lecConsole(); //On sauvegarde une matrice via la lecture console
+					m=LecteurDonnees.lecConsole(); //On sauvegarde une matrice via la lecture console
 				} catch (NumberFormatException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
