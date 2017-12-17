@@ -6,9 +6,9 @@ import java.util.Scanner;
 
 import Modele.Simplexe;
 
-import Utilitaire.LectureDonnees;
+import Utilitaire.LecteurDonnees;
 import Modele.Matrice;
-import exceptions.CheminInvalide;
+import exceptions.CheminInvalideException;
 
 
 /**
@@ -17,7 +17,7 @@ import exceptions.CheminInvalide;
  * @author Julian
  *
  */
-public class Main {
+public abstract class Main {
 	private static Scanner lc = new Scanner(System.in);
 
 	private static String nomFichier, solution;
@@ -58,7 +58,7 @@ public class Main {
 			if(choixLecture == 1)
 			{
 				try {
-					m=LectureDonnees.lecConsole(); //On sauvegarde une matrice via la lecture console
+					m=LecteurDonnees.lecConsole(); //On sauvegarde une matrice via la lecture console
 				} catch (NumberFormatException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -68,7 +68,7 @@ public class Main {
 			else if(choixLecture == 2)
 			{
 				try {
-					m=LectureDonnees.lecFichier(); //On sauvegarde une matrice via la lecture fichier
+					m=LecteurDonnees.lecFichier(); //On sauvegarde une matrice via la lecture fichier
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -124,7 +124,7 @@ public class Main {
 			nomFichier = lc.nextLine();
 			try {
 				Utilitaire.Fichier.setChemin(nomFichier);
-			} catch (CheminInvalide e) {
+			} catch (CheminInvalideException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} 
@@ -132,7 +132,7 @@ public class Main {
 		}
 		try {
 			// On essaie de faire l'écriture de la fonction objective + les contraintes + la solution dans le fichier
-			Utilitaire.Fichier.ecriture(LectureDonnees.getChaineFonctionObj()+ "\n" + LectureDonnees.getChaineContrainte() + "\n" + solution);
+			Utilitaire.Fichier.ecriture(LecteurDonnees.getChaineFonctionObj()+ "\n" + LecteurDonnees.getChaineContrainte() + "\n" + solution);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

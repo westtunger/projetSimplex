@@ -14,18 +14,22 @@ public class Matrice {
 	private List<List<Double>> matrice;
 	private int nbContraintes; 
 	
+	/**
+	 * Assigne une valeur à nbContraintes.
+	 * @param nbContraintes Le nombre de contraintes
+	 */
 	public void setNbContraintes(int nbContraintes) {
 		this.nbContraintes = nbContraintes;
 	}
-/**
- * Constructeur de Matrice
- * @param nbContrainte Le nombre de Contraintes
- * @param nbVariable Le nombre de Variables
- * @param fonctionObjectif la fonction Objectif
- */
 	
-	public Matrice(int nbContrainte, int nbVariable, Double... fonctionObjectif) {
-		this.nbContraintes = nbContrainte;
+	/**
+	 * Constructeur de Matrice
+	 * @param nbContraintes Le nombre de Contraintes
+	 * @param nbVariables Le nombre de Variables
+	 * @param fonctionObjectif la fonction Objectif
+	 */
+	public Matrice(int nbContraintes, int nbVariables, Double... fonctionObjectif) {
+		this.nbContraintes = nbContraintes;
 		this.matrice = new ArrayList<List<Double>>();		
 		List<Double> ligneObjectif = new ArrayList<>();
 		
@@ -34,7 +38,7 @@ public class Matrice {
 			ligneObjectif.add(valeur);
 		}
 		
-		for(int i = 0;i<nbContrainte;i++)
+		for(int i = 0;i<nbContraintes;i++)
 		{
 			ligneObjectif.add(0.);
 		}
@@ -45,6 +49,7 @@ public class Matrice {
 		matrice.add(ligneObjectif);
 		
 	}
+	
 	/**
 	 * Renvoie en format de Matrice le contenu de la matrice.
 	 */
@@ -60,24 +65,26 @@ public class Matrice {
 		
 		return affichage;
 	}
+	
 	/**
 	 * Méthode permettant de récupérer une valeur de la matrice en fonction des coordonnées introduites en argument
 	 * @param ligne La ligne de la matrice
 	 * @param colonne La colonne de la matrice
 	 * @return La valeur sera retournée en Double
 	 */
-	public double getValeur(int ligne,int colonne){
-		return (double) matrice.get(ligne).get(colonne);
+	public Double getValeur(int ligne,int colonne){
+		return (Double) matrice.get(ligne).get(colonne);
 	}
+	
 	/**
 	 * Getter d'une ligne de la matrice
 	 * @param ligne On intoduit l'index de la ligne à récupérer
 	 * @return L'élèment retourné sera une Liste de Double ( la Ligne)
-	 */
-	
+	 */	
 	public List<Double> getLigne(int ligne) {
 		return matrice.get(ligne);
 	}
+	
 	/**
 	 * Permet de paramètrer la ligne ( Setter) 
 	 * @param lignePos La ligne à modifier
@@ -87,21 +94,23 @@ public class Matrice {
 		matrice.set(lignePos, ligne);
 		
 	}
+	
 	/**
 	 * Permet de paramètrer une Valeur, on selectionne a valeur à partir de ses coordonnées (Setter)
 	 * @param ligne La ligne de la valeur
 	 * @param colonne La colonne de la valeur
 	 * @param valeur La valeur remplaçante
 	 */
-	public void setValeur(int ligne,int colonne, double valeur) {
+	public void setValeur(int ligne,int colonne, Double valeur) {
 		matrice.get(ligne).set(colonne, valeur);
 		
 	} 
+	
 	/**
 	 * Getter du nombre de contraintes.
 	 * @return Permet de retourner une valeur entière 
 	 */
-	public int getNbContrainte() {
+	public int getNbContraintes() {
 		return this.getNbLignes()-1;
 	}
 
@@ -109,8 +118,8 @@ public class Matrice {
 	 * Getter Permettant de récupèrer le nombre de variables
 	 * @return le nombre retourné est un Entier
 	 */
-	public int getNbVariable() {
-		return this.getTailleLigne()-(1+getNbContrainte());
+	public int getNbVariables() {
+		return this.getTailleLigne()-(1+getNbContraintes());
 		// Nombre de variable = Taille de la ligne - 1 (terme indépendant) - N(nombre de contraintes)
 	}
 
@@ -121,6 +130,7 @@ public class Matrice {
 	public int getTailleLigne() {
 		return matrice.get(0).size();
 	}
+	
 	/**
 	 * Getter permettant de retourner le nombre de lignes 
 	 * @return La valeur retournée est sous forme de nombre entier.
@@ -128,6 +138,7 @@ public class Matrice {
 	public int getNbLignes() {
 		return matrice.size();
 	}
+	
 	/**
 	 * Méthode permettant d'ajouter une Contrainte.
 	 * @param termeIndependant Le terme indépendant de la contrainte ( en Double)
@@ -201,7 +212,7 @@ public class Matrice {
 		List<Double> ligne=matrice.get(numLigne); 
 		int indiceMax=0;
 		double max = 0;
-		for(int i=0;i<ligne.size();i++) {
+		for(int i=0;i<ligne.size()-1;i++) {
 			if (ligne.get(i) > max) {
 				max =  ligne.get(i);
 				indiceMax = i;

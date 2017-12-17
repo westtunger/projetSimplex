@@ -3,7 +3,7 @@ import java.io.*;
 
 import javax.swing.SpringLayout.Constraints;
 
-import exceptions.CheminInvalide;
+import exceptions.CheminInvalideException;
 
 /**
  * Gère l'écriture des données dans un fichier
@@ -20,7 +20,6 @@ public abstract class Fichier {
 		 * @param chaine = chaine qui sera stockée dans le fichier de sauvegarde
 		 * @throws IOException Exception vérifiant qu'il n'y a pas d'erreurs durant l'écrituee
 		 * @see PrintWriter Ecrit dans le fichier
-		 * @see FileOutputSteam Permet d'écrire dans le fichier
 		 */
 		public static void ecriture(String chaine) throws IOException
 		{
@@ -36,13 +35,13 @@ public abstract class Fichier {
 		/**
 		 * 
 		 * @param c = chemin d'accès voulu pour le fichier
-		 * @throws CheminInvalide Vérifie la validité du chemin
+		 * @throws CheminInvalideException Vérifie la validité du chemin
 		 */
-		public static void setChemin (String c) throws CheminInvalide
+		public static void setChemin (String c) throws CheminInvalideException
 		{
 			// Regex : [A-Z]{1}:\/(.+\/)*(\w+.\w{1,})
 			if(c.length()<=0 || c.contains(" ")){
-				throw new CheminInvalide(c);
+				throw new CheminInvalideException(c);
 			}
 			
 			chemin=c;
