@@ -1,9 +1,12 @@
 package Utilitaire;
 import java.io.*;
-
-import javax.swing.SpringLayout.Constraints;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import Modele.Matrice;
 import exceptions.CheminInvalide;
+
+import Utilitaire.LectureDonnees;
 
 /**
  * Gère l'écriture des données dans un fichier
@@ -50,5 +53,63 @@ public abstract class Fichier {
 			{
 				chemin += ".txt";
 			}
+		}
+		
+		/**
+		 * Gère la lecture des données via un fichier 
+		 * @return Renvoie la matrice obtenue en lisant le fichier choisi
+		 * @throws IOException Permet de fermer le Reader de fichier
+		 */
+		public static Matrice lecFichier() throws IOException
+		{
+			
+			String [] tableauNombres = null;
+			Double[] fonctionObj = null;
+			String nomFichierLecture, valeurs;
+			int i, nbvariables, nbcontraintes;
+			Scanner lc = new Scanner(System.in);
+			List<String>listeValeurs = new ArrayList<>();
+			System.out.print("Nom du fichier à lire : ");
+			nomFichierLecture = lc.nextLine();
+
+			BufferedReader r = new BufferedReader(new FileReader(nomFichierLecture)); //Crée un Reader pour qui va permettre de lire le fichier ligne par ligne
+			String[] tabval;
+
+			valeurs = r.readLine();
+
+			tabval = valeurs.split(" ");
+			nbvariables = tabval.length;
+			fonctionObj = new Double[nbvariables];
+
+
+			tableauNombres = valeurs.split(" "); // Sépare la chaine de caractère à chaque espace qui s'y trouve
+
+			for (i=0;i<nbvariables;i++)
+			{
+
+				fonctionObj[i] = Double.parseDouble(tableauNombres[i]); //Ajoute chaque valeur convertie en double à la ligne
+			}
+			while(true)
+			{
+				valeurs = r.readLine();
+				if(valeurs == null)
+				{
+					nbcontraintes = listeValeurs.size();
+					break;
+				}
+				else
+				{
+					listeValeurs.add(valeurs);
+				}
+			}
+
+			Matrice matlec = new Matrice(nbcontraintes, nbvariables, fonctionObj);
+			
+			matlec = LectureDonnees.stockageValeurs(listeValeurs, matlec, fonctionObj, nbvariables, nbcontraintes);
+			System.out.println("\n--- RECAPITULATIF ---");
+			System.out.println(Main.chaineFonctionObj);
+			System.out.println(Main.chaineContrainte);
+			r.close();
+			return matlec;
 		}
 	}
