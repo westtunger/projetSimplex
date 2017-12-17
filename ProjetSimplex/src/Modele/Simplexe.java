@@ -150,6 +150,11 @@ public abstract class Simplexe
 		return sb;
 	}
 	
+	/**
+	 * Retourne si oui ou non le problème possède des solutions multiples.
+	 * @param matrice La matrice du problème à résoudre.
+	 * @return Si oui ou non le problème possède des solutions multiples.
+	 */
 	private static boolean possedeSolutionsMultiples(Matrice matrice) 
 	{	
 		boolean solutionsMultiples = false;
@@ -206,13 +211,13 @@ public abstract class Simplexe
 		
 		if(solutionsMultiples)
 		{
-			resultat+="Il y a une plusieurs couples ";
+			resultat+="Il y a plusieurs couples ";
 			
-			for(int i = 1; i <= matrice.getNbVariable(); i++)
+			for(int i = 1; i <= matrice.getNbVariables(); i++)
 			{
 				resultat+="X"+i;
 				
-				if(i == matrice.getNbVariable())
+				if(i == matrice.getNbVariables())
 					resultat += " ";
 				else
 					resultat += ", ";
@@ -227,7 +232,7 @@ public abstract class Simplexe
 			return resultat;
 		}
 		
-		for(int i=0; i < matrice.getNbVariable(); i++)
+		for(int i=0; i < matrice.getNbVariables(); i++)
 		{
 			int n = -1;
 			

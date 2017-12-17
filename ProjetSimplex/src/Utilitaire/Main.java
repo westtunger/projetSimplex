@@ -1,6 +1,5 @@
 package Utilitaire;
 
-import java.awt.Font;
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -11,13 +10,15 @@ import Utilitaire.LecteurDonnees;
 import Modele.Matrice;
 
 
+
+
 /**
  * Classe qui permet de faire le lien entre chaque partie du programme
  * Gère les choix faits par l'utilisateur
  * @author Julian
  *
  */
-public class Main {
+public abstract class Main {
 	private static Scanner lc = new Scanner(System.in);
 
 	 static String chaineContrainte = "", chaineFonctionObj = "Max Z = ", solution;
@@ -69,7 +70,9 @@ public class Main {
 			else if(choixLecture == 2)
 			{
 				try {
+
 					m=Fichier.lecFichier(); //On sauvegarde une matrice via la lecture fichier
+
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -99,7 +102,13 @@ public class Main {
 			choixSauve = lc.nextLine();
 			if(choixSauve.equalsIgnoreCase("oui"))
 			{
-				//Fichier.ecritureFichier(fonctionObjective, contraintes, solution);
+				String chaine = chaineFonctionObj + chaineContrainte +"\n"+ solution;
+				try {
+					Fichier.ecriture(chaine);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				break;
 			}
 			else if(choixSauve.equalsIgnoreCase("non"))

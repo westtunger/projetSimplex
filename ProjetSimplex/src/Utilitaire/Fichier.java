@@ -1,10 +1,14 @@
 package Utilitaire;
 import java.io.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import Modele.Matrice;
-import exceptions.CheminInvalide;
+
+
+import exceptions.CheminInvalideException;
+
 
 import Utilitaire.LecteurDonnees;
 
@@ -23,10 +27,19 @@ public abstract class Fichier {
 		 * @param chaine = chaine qui sera stockée dans le fichier de sauvegarde
 		 * @throws IOException Exception vérifiant qu'il n'y a pas d'erreurs durant l'écrituee
 		 * @see PrintWriter Ecrit dans le fichier
-		 * @see FileOutputSteam Permet d'écrire dans le fichier
 		 */
 		public static void ecriture(String chaine) throws IOException
 		{
+			String nomFichier;
+			Scanner lc = new Scanner(System.in);
+			System.out.print("Nom du fichier à sauvegarder : ");
+			nomFichier = lc.nextLine();
+			try {
+				setChemin(nomFichier);
+			} catch (CheminInvalideException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			//Ecriture du fichier via le chemin d'accès encodé par l'utilisateur
 			try (PrintWriter pw = new PrintWriter(new FileOutputStream(chemin))){	//On vérifie que le fichier peut être créer
 				pw.write(chaine); 
@@ -39,13 +52,13 @@ public abstract class Fichier {
 		/**
 		 * 
 		 * @param c = chemin d'accès voulu pour le fichier
-		 * @throws CheminInvalide Vérifie la validité du chemin
+		 * @throws CheminInvalideException Vérifie la validité du chemin
 		 */
-		public static void setChemin (String c) throws CheminInvalide
+		public static void setChemin (String c) throws CheminInvalideException
 		{
 			// Regex : [A-Z]{1}:\/(.+\/)*(\w+.\w{1,})
 			if(c.length()<=0 || c.contains(" ")){
-				throw new CheminInvalide(c);
+				throw new CheminInvalideException(c);
 			}
 			
 			chemin=c;
@@ -112,4 +125,5 @@ public abstract class Fichier {
 			r.close();
 			return matlec;
 		}
+
 	}
