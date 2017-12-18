@@ -43,7 +43,7 @@ public abstract class LecteurDonnees {
 		boolean err = true;
 		while(err == true)
 		{
-			System.out.print("Valeur des variables de la fonction objective : ");
+			System.out.print("Valeur des variables de la fonction objectif : ");
 			valeurs = lc.nextLine();
 			tableauNombres = valeurs.split(" "); 
 			nbvariables = tableauNombres.length;
