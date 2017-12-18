@@ -32,7 +32,6 @@ public abstract class Simplexe
 		
 		while(objectifEstPositive(matrice) && i <5)
 		{
-			resultat += "Etape n°"+i+" : \n\n";
 			colonnePivot = trouverColonnePivot(matrice);
 			solutionNonBornee = isSolutionNonBornee(matrice,colonnePivot);
 			if(solutionNonBornee)
@@ -45,6 +44,7 @@ public abstract class Simplexe
 			{
 				return e.toString();
 			}
+			resultat += "Etape n°"+i+" : \n\n";
 			matrice = rendrePivotUnitaire(matrice, lignePivot, colonnePivot);
 			resultat += "Ligne du pivot : "+lignePivot+"\n";
 			resultat += "Colonne du pivot : "+colonnePivot+"\n\n";
@@ -228,7 +228,7 @@ public abstract class Simplexe
 		
 		if(solutionNonBornee)
 		{
-			resultat+="La solution n'est pas bornée, càd qu'il n'y a aucune valeurs optimale spécifique pour la fonction objectif (le problème est mal posé).\n Tant que les variabiables augmentes, Z augmente aussi.";
+			resultat+="La solution n'est pas bornée, càd qu'il n'y a aucune valeurs optimale spécifique pour la fonction objectif (le problème est mal posé).\nTant que les variabiables augmentes, Z augmente aussi.\n";
 			return resultat;
 		}
 		
