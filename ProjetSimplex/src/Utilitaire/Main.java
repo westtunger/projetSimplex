@@ -21,14 +21,31 @@ import Modele.Matrice;
 public abstract class Main {
 	private static Scanner lc = new Scanner(System.in);
 
-	static String chaineContrainte = "", chaineFonctionObj = "Max Z = ", solution;
+	private static String chaineContrainte = "", chaineFonctionObj = "Max Z = ", solution;
 
-	public static Matrice m;
-	public static void main(String[] args) throws IOException {
-		// TODO Auto-generated method stub
+	private static Matrice m;
+	
+	
+	public static String getChaineContrainte() {
+		return chaineContrainte;
+	}
+
+	public static String getChaineFonctionObj() {
+		return chaineFonctionObj;
+	}
+	
+	public static void ajouterAChaineContrainte(String ajout) {
+		chaineContrainte+=ajout;
+	}
+
+	/**
+	 * Methode main
+	 * @param args arguments
+	 */
+	public static void main(String[] args) {
 		String choixRec;
 		boolean continu = true;
-		System.out.println("Bienvenue dans ce programme permettant la résolution de problèmes liés au Simplexe");
+		System.out.println("Bienvenue dans ce programme permettant la résolution de problèmes par la méthode du Simplexe");
 		do 
 		{
 			choixLectureDonnees();	
@@ -57,9 +74,9 @@ public abstract class Main {
 
 	}
 
-	/*
-	 * Demande à l'utilisateur de choisir par quel moyen il désire encoder ses données
-	 */
+/**
+ * Demande à l'utilisateur de choisir par quel moyen il désire encoder ses données
+ */
 	public static void choixLectureDonnees()
 	{
 		int choixLecture = 0;
@@ -85,7 +102,6 @@ public abstract class Main {
 				try {
 					m=LecteurDonnees.lecConsole(); //On sauvegarde une matrice via la lecture console
 				} catch (NumberFormatException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				break;
@@ -97,7 +113,6 @@ public abstract class Main {
 					m=Fichier.lecFichier(); //On sauvegarde une matrice via la lecture fichier
 
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				break;
@@ -111,7 +126,7 @@ public abstract class Main {
 		System.out.println(solution);
 	}
 
-	/*
+	/**
 	 *  Demande à l'utilisateur s'il désire sauvegarder le fichier
 	 */
 	public static void choixSauvegarde()
@@ -129,7 +144,6 @@ public abstract class Main {
 				try {
 					Fichier.ecriture(chaine);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				break;

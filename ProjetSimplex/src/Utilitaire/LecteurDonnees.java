@@ -114,8 +114,8 @@ public abstract class LecteurDonnees {
 		matlec = new Matrice(nbcontraintes, nbvariables, fonctionObj); 
 		matlec = stockageValeurs(listeValeurs, matlec, fonctionObj, nbvariables, nbcontraintes);
 		System.out.println("\n--- RECAPITULATIF ---");
-		System.out.println(Main.chaineFonctionObj);
-		System.out.println(Main.chaineContrainte);
+		System.out.println(Main.getChaineFonctionObj());
+		System.out.println(Main.getChaineContrainte());
 
 		return matlec;
 	}
@@ -141,17 +141,17 @@ public abstract class LecteurDonnees {
 			}
 
 			ti = Double.parseDouble(tableauNombres[nbvariables]);
-			Main.chaineContrainte += "Contrainte n°"+(i+1)+" : ";
+			Main.ajouterAChaineContrainte("Contrainte n°"+(i+1)+" : ");
 			for(k=0;k<nbvariables;k++)
 			{
-				Main.chaineContrainte += ligne[k]+"*x"+(k+1);
+				Main.ajouterAChaineContrainte(ligne[k]+"*x"+(k+1)) ;
 
 				if(k!=nbvariables-1)
 				{
-					Main.chaineContrainte += " + ";
+					Main.ajouterAChaineContrainte(" + ");
 				}		
 			}
-			Main.chaineContrainte += " <= "+ ti +"\n";
+			Main.ajouterAChaineContrainte(" <= "+ ti +"\n");
 
 
 
@@ -165,18 +165,18 @@ public abstract class LecteurDonnees {
 
 		for(k=1;k<=nbvariables;k++)
 		{
-			Main.chaineContrainte+="x"+k+" >= 0";
+			Main.ajouterAChaineContrainte("x"+k+" >= 0");
 			if(k!=nbvariables)
 			{
-				Main.chaineContrainte += " ; ";
+				Main.ajouterAChaineContrainte(" ; ");
 			}	
 		}
 		for(k = 0;k<nbvariables;k++)
 		{
-			Main.chaineFonctionObj += fonctionObj[k]+"*x"+(k+1);
+			Main.ajouterAChaineContrainte(fonctionObj[k]+"*x"+(k+1));
 			if(k!=nbvariables-1)
 			{
-				Main.chaineFonctionObj+=" + ";
+				Main.ajouterAChaineContrainte(" + ");
 			}
 
 		}

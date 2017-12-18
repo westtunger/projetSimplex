@@ -13,7 +13,7 @@ import exceptions.CheminInvalideException;
 import Utilitaire.LecteurDonnees;
 
 /**
- * Gère l'écriture des données dans un fichier
+ * Gère l'écriture et la lecture des données dans un fichier
  * @author Julian
  *
  */
@@ -24,8 +24,8 @@ public abstract class Fichier {
 
 
 		/**
-		 * 
-		 * @param chaine = chaine qui sera stockée dans le fichier de sauvegarde
+		 * Ecrit une chaine de caractères dans un fichier.
+		 * @param chaine Chaine qui sera stockée dans le fichier de sauvegarde
 		 * @throws IOException Exception vérifiant qu'il n'y a pas d'erreurs durant l'écrituee
 		 * @see PrintWriter Ecrit dans le fichier
 		 */
@@ -38,7 +38,6 @@ public abstract class Fichier {
 			try {
 				setChemin(nomFichier);
 			} catch (CheminInvalideException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			//Ecriture du fichier via le chemin d'accès encodé par l'utilisateur
@@ -51,14 +50,13 @@ public abstract class Fichier {
 		}
 
 		/**
-		 * 
-		 * @param c = chemin d'accès voulu pour le fichier
+		 * Ce qui attribue la valeur au chemin d'accès du fichier.
+		 * @param c Chemin d'accès voulu pour le fichier
 		 * @throws CheminInvalideException Vérifie la validité du chemin
 		 */
 		public static void setChemin (String c) throws CheminInvalideException
 		{
-			// Regex : [A-Z]{1}:\/(.+\/)*(\w+.\w{1,})
-			if(c.length()<=0 || c.contains(" ")){
+			if(c.length()<=0){
 				throw new CheminInvalideException(c);
 			}
 			
@@ -72,7 +70,7 @@ public abstract class Fichier {
 		/**
 		 * Gère la lecture des données via un fichier 
 		 * @return Renvoie la matrice obtenue en lisant le fichier choisi
-		 * @throws IOException Permet de fermer le Reader de fichier
+		 * @throws IOException Gestion des Exception des Entrées et Sorties
 		 */
 		public static Matrice lecFichier() throws IOException
 		{
@@ -85,7 +83,10 @@ public abstract class Fichier {
 			List<String>listeValeurs = new ArrayList<>();
 			System.out.print("Nom du fichier à lire : ");
 			nomFichierLecture = lc.nextLine();
-			
+			if(!nomFichierLecture.contains(".")) //Si pas d'extension de fichier trouvée, on en ajoute une
+			{
+				nomFichierLecture += ".txt";
+			}
 			BufferedReader r = new BufferedReader(new FileReader(nomFichierLecture)); //Crée un Reader pour qui va permettre de lire le fichier ligne par ligne
 			String[] tabval;
 
@@ -121,8 +122,8 @@ public abstract class Fichier {
 			
 			matlec = LecteurDonnees.stockageValeurs(listeValeurs, matlec, fonctionObj, nbvariables, nbcontraintes);
 			System.out.println("\n--- RECAPITULATIF ---");
-			System.out.println(Main.chaineFonctionObj);
-			System.out.println(Main.chaineContrainte);
+			System.out.println(Main.getChaineFonctionObj());
+			System.out.println(Main.getChaineContrainte());
 			r.close();
 			return matlec;
 		}
