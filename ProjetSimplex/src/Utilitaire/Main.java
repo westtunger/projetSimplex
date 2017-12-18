@@ -37,7 +37,7 @@ public abstract class Main {
 	/*
 	 * Demande à l'utilisateur de choisir par quel moyen il désire encoder ses données
 	 */
-	private static void choixLectureDonnees()
+	public static void choixLectureDonnees()
 	{
 		int choixLecture = 0;
 
@@ -91,7 +91,7 @@ public abstract class Main {
 	/*
 	 *  Demande à l'utilisateur s'il désire sauvegarder le fichier
 	 */
-	private static void choixSauvegarde()
+	public static void choixSauvegarde()
 	{
 		lc.nextLine(); //On vide le Scanner pour pouvoir encoder le choix
 		String choixSauve;
@@ -122,9 +122,7 @@ public abstract class Main {
 		}
 	}
 
-	/**
-	 *  Gère l'écriture dans le fichier choisi par l'utilisateur
-	 */
+
 
 
 }
