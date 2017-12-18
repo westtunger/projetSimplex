@@ -84,8 +84,13 @@ public abstract class Fichier {
 			List<String>listeValeurs = new ArrayList<>();
 			System.out.print("Nom du fichier à lire : ");
 			nomFichierLecture = lc.nextLine();
-
-			BufferedReader r = new BufferedReader(new FileReader(nomFichierLecture)); //Crée un Reader pour qui va permettre de lire le fichier ligne par ligne
+			try {
+				setChemin(nomFichierLecture);
+			} catch (CheminInvalideException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			BufferedReader r = new BufferedReader(new FileReader(chemin)); //Crée un Reader pour qui va permettre de lire le fichier ligne par ligne
 			String[] tabval;
 
 			valeurs = r.readLine();
