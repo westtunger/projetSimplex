@@ -21,17 +21,40 @@ import Modele.Matrice;
 public abstract class Main {
 	private static Scanner lc = new Scanner(System.in);
 
-	 static String chaineContrainte = "", chaineFonctionObj = "Max Z = ", solution;
+	static String chaineContrainte = "", chaineFonctionObj = "Max Z = ", solution;
 
 	public static Matrice m;
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
-		
+		String choixRec;
+		boolean continu = true;
 		System.out.println("Bienvenue dans ce programme permettant la résolution de problèmes liés au Simplexe");
-		choixLectureDonnees();
-		
-		choixSauvegarde();
-		
+		do 
+		{
+			choixLectureDonnees();	
+			choixSauvegarde();
+
+			System.out.print("Voulez-vous résoudre un nouveau problème ? (oui/non) : ");
+			choixRec = lc.nextLine();
+			while(true)
+			{
+				if(choixRec.equalsIgnoreCase("non"))
+				{
+					continu = false;
+					System.out.println("Au revoir");
+					break;
+				}
+				else if(choixRec.equalsIgnoreCase("oui"))
+				{
+					System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+					break;
+				}
+				else {
+					System.out.println("Choix incorrect, veuillez recommencer (oui/non) : ");
+				}
+			}
+		}while(continu == true);
+
 	}
 
 	/*
@@ -102,7 +125,7 @@ public abstract class Main {
 			choixSauve = lc.nextLine();
 			if(choixSauve.equalsIgnoreCase("oui"))
 			{
-				String chaine = chaineFonctionObj + chaineContrainte +"\n"+ solution;
+				String chaine = chaineFonctionObj + "\n" + chaineContrainte +"\n"+ solution;
 				try {
 					Fichier.ecriture(chaine);
 				} catch (IOException e) {
@@ -113,7 +136,6 @@ public abstract class Main {
 			}
 			else if(choixSauve.equalsIgnoreCase("non"))
 			{
-				System.out.println("Au revoir");
 				break;
 			}
 			else {
