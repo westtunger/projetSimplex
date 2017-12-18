@@ -43,7 +43,7 @@ public class Matrice {
 			ligneObjectif.add(0.);
 		}
 		
-		//Z
+
 		ligneObjectif.add(0.);
 		
 		matrice.add(ligneObjectif);
@@ -86,7 +86,7 @@ public class Matrice {
 	}
 	
 	/**
-	 * Permet de paramètrer la ligne ( Setter) 
+	 * Permet d'assigner la ligne ( Setter) 
 	 * @param lignePos La ligne à modifier
 	 * @param ligne La ligne remplaçante
 	 */
@@ -96,7 +96,7 @@ public class Matrice {
 	}
 	
 	/**
-	 * Permet de paramètrer une Valeur, on selectionne a valeur à partir de ses coordonnées (Setter)
+	 * Permet d'assigner une Valeur, on selectionne a valeur à partir de ses coordonnées (Setter)
 	 * @param ligne La ligne de la valeur
 	 * @param colonne La colonne de la valeur
 	 * @param valeur La valeur remplaçante
@@ -107,7 +107,7 @@ public class Matrice {
 	} 
 	
 	/**
-	 * Getter du nombre de contraintes.
+	 * Renvoie le nombre de contraintes.
 	 * @return Permet de retourner une valeur entière 
 	 */
 	public int getNbContraintes() {
@@ -115,7 +115,7 @@ public class Matrice {
 	}
 
 	/**
-	 * Getter Permettant de récupèrer le nombre de variables
+	 * Renvoie le nombre de variables
 	 * @return le nombre retourné est un Entier
 	 */
 	public int getNbVariables() {
@@ -124,7 +124,7 @@ public class Matrice {
 	}
 
 	/**
-	 * Getter Permettant de récupèrer la taille de la ligne.
+	 *Renvoie la taille de la ligne.
 	 * @return on récupère la taille de la matrice sous forme de nombre entier.
 	 */
 	public int getTailleLigne() {
@@ -132,7 +132,7 @@ public class Matrice {
 	}
 	
 	/**
-	 * Getter permettant de retourner le nombre de lignes 
+	 * Renvoie le nombre de lignes 
 	 * @return La valeur retournée est sous forme de nombre entier.
 	 */
 	public int getNbLignes() {
@@ -140,7 +140,7 @@ public class Matrice {
 	}
 	
 	/**
-	 * Méthode permettant d'ajouter une Contrainte.
+	 * Permet d'ajouter une contrainte.
 	 * @param termeIndependant Le terme indépendant de la contrainte ( en Double)
 	 * @param variables Les variables à ajouter ( en Vecteur de Double)
 	 * @throws doublonContrainteException Si la contrainte est equivalente à une autre contrainte déjà insérée, l'exception se déclenche
@@ -204,7 +204,7 @@ public class Matrice {
 	}
 	
 	/**
-	 * Getter de la valeur Maximale de la ligne. On récupère l'indice de la valeur.
+	 * Renvoie l'indice de la valeur.
 	 * @param numLigne La ligne concernée.
 	 * @return La valeur de l'indice retourné est un Entier
 	 */

@@ -30,7 +30,7 @@ public abstract class Simplexe
 		resultat += ecrireSb(matrice);
 		resultat += "-----------------------------------------------------------------------------------\n";
 		
-		while(objectifEstPositive(matrice) && i <5)
+		while(objectifEstPositive(matrice))
 		{
 			colonnePivot = trouverColonnePivot(matrice);
 			solutionNonBornee = isSolutionNonBornee(matrice,colonnePivot);
@@ -70,7 +70,7 @@ public abstract class Simplexe
 	 */
 	private static boolean isSolutionNonBornee(Matrice matrice, int colonne)
 	{
-		boolean solutionRestrainte = false;
+		boolean solutionNonBornee = false;
 		int n = 0;
 		
 		for(int j = 0;j<matrice.getNbLignes()-1;j++)
@@ -85,13 +85,13 @@ public abstract class Simplexe
 		}
 		
 		//Toute la colonne de la variable entrant en base est négative ou nulle
-		//Il s'agit donc d'un cas de solution illimitée (restrainte)
+		//Il s'agit donc d'un cas de solution illimitée.
 		if(n == matrice.getNbLignes()-1)
 		{
-			solutionRestrainte = true;
+			solutionNonBornee = true;
 		}
 		
-		return solutionRestrainte;
+		return solutionNonBornee;
 	}
 	
 	/**
@@ -123,7 +123,7 @@ public abstract class Simplexe
 				}
 				else
 				{
-					n = -2;
+					n = -2; 
 					break;
 				}	
 			}
@@ -319,7 +319,7 @@ public abstract class Simplexe
 	}
 	
 	/**
-	 * Rend le pivot unitaire avant de renvoier la matrice modifiée.
+	 * Rend le pivot unitaire avant de renvoyer la matrice modifiée.
 	 * @param matrice La matrice du problème à résoudre.
 	 * @param lignePivot La ligne du pivot de l'étape actuelle.
 	 * @param colonnePivot La colonne du pivot de l'étape actuelle.
