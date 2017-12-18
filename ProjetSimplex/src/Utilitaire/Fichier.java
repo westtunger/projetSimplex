@@ -20,6 +20,7 @@ import Utilitaire.LecteurDonnees;
 public abstract class Fichier {
 
 	private static String chemin;
+	private static Scanner lc;
 
 
 		/**
@@ -31,7 +32,7 @@ public abstract class Fichier {
 		public static void ecriture(String chaine) throws IOException
 		{
 			String nomFichier;
-			Scanner lc = new Scanner(System.in);
+			lc = new Scanner(System.in);
 			System.out.print("Nom du fichier à sauvegarder : ");
 			nomFichier = lc.nextLine();
 			try {
@@ -80,17 +81,12 @@ public abstract class Fichier {
 			Double[] fonctionObj = null;
 			String nomFichierLecture, valeurs;
 			int i, nbvariables, nbcontraintes;
-			Scanner lc = new Scanner(System.in);
+			lc = new Scanner(System.in);
 			List<String>listeValeurs = new ArrayList<>();
 			System.out.print("Nom du fichier à lire : ");
 			nomFichierLecture = lc.nextLine();
-			try {
-				setChemin(nomFichierLecture);
-			} catch (CheminInvalideException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			BufferedReader r = new BufferedReader(new FileReader(chemin)); //Crée un Reader pour qui va permettre de lire le fichier ligne par ligne
+			
+			BufferedReader r = new BufferedReader(new FileReader(nomFichierLecture)); //Crée un Reader pour qui va permettre de lire le fichier ligne par ligne
 			String[] tabval;
 
 			valeurs = r.readLine();

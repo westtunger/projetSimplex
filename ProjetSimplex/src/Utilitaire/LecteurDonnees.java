@@ -20,6 +20,8 @@ import exceptions.doublonContrainteException;
 public abstract class LecteurDonnees {
 
 
+	private static Scanner lc;
+
 	/**
 	 * 
 	 * @return Matrice, renvoie la matrice qui permet de calculer le Simplexe
@@ -35,7 +37,7 @@ public abstract class LecteurDonnees {
 
 		Matrice matlec;
 		List<String> listeValeurs =  new ArrayList<>();
-		Scanner lc = new Scanner(System.in);
+		lc = new Scanner(System.in);
 
 		String[] splitValeurs;
 		boolean err = true;
