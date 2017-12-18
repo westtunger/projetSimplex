@@ -17,7 +17,7 @@ import exceptions.doublonContrainteException;
  * @author Julian
  *
  */
-public class LecteurDonnees {
+public abstract class LecteurDonnees {
 
 
 	/**

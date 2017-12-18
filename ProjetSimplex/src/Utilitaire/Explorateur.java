@@ -2,12 +2,8 @@ package Utilitaire;
 
 import java.lang.reflect.Field;
 
-public class Explorateur
+public abstract class Explorateur
 {
-    public Explorateur()
-    {
-    }
-
     public static Object getField(Object obj, String s) 
     {
         Object obj1 = null;
