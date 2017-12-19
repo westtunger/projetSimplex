@@ -73,7 +73,6 @@ public abstract class LecteurDonnees {
 			System.out.print("Valeur des variables de la contrainte n°" + (k+1) + " : ");
 			valeurs = lc.nextLine();
 
-
 			if(valeurs.equals("-1")) //Fin de la ecture des contraintes si on encode -1
 			{
 				nbcontraintes = listeValeurs.size();
@@ -82,23 +81,28 @@ public abstract class LecteurDonnees {
 			else
 			{
 				splitValeurs = valeurs.split(" ");
-
-				for (i=0;i<=nbvariables;i++)
+				if(splitValeurs.length != nbvariables+1)
 				{
-					try {
-						testNbVar[i] = Double.parseDouble(splitValeurs[i]);
-						if(i==nbvariables-1)
-						{
-							err = false;
+					System.out.println("Nombre de variables incorrect");
+					err = true;
+				}
+				else {
+					for (i=0;i<=nbvariables;i++)
+					{
+						try {
+							testNbVar[i] = Double.parseDouble(splitValeurs[i]);
+							if(i==nbvariables-1)
+							{
+								err = false;
+							}
+						}
+						catch (NumberFormatException e) {
+							err = true;
+							System.out.println("Veuillez encodez uniquement des nombres, séparés par des espaces");					
+							break;
 						}
 					}
-					catch (NumberFormatException e) {
-						err = true;
-						System.out.println("Veuillez encodez uniquement des nombres, séparés par des espaces");					
-						break;
-					}
 				}
-
 				if(splitValeurs.length != nbvariables+1 && err == true)
 				{
 					System.out.println("Nombre de variables incorrect, veuillez recommencer");
